@@ -9,6 +9,7 @@ end
 
 function Platform:update(dt)
     -- Update logic for the platform can be added here if needed
+    
 end
 
 function Platform:draw()

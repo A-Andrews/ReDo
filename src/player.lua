@@ -9,9 +9,9 @@ function Player:load()
 end
 
 function Player:update(dt)
-    if love.keyboard.isDown('d') then
+    if love.keyboard.isDown('d') and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
         self.x = self.x + (self.speed * dt)
-    elseif love.keyboard.isDown('a') then
+    elseif love.keyboard.isDown('a') and self.x > 0 then
         self.x = self.x - (self.speed * dt)
     end
 end
