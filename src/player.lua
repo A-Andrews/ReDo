@@ -27,7 +27,7 @@ function Player:update(dt)
 
     if self.y_velocity ~= 0 then
         self.y = self.y + self.y_velocity * dt
-        self.y_velocity = self.y_velocity + self.gravity * dt
+        self.y_velocity = self.y_velocity - self.gravity * dt
     end
 
     if self.y > self.ground then
