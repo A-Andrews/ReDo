@@ -1,8 +1,10 @@
 local Player = {}
 
 function Player:load()
-    self.x = love.graphics.getWidth() / 2
-    self.y = love.graphics.getHeight() / 2
+    self.start_x = love.graphics.getWidth() / 2
+    self.start_y = love.graphics.getHeight() / 2
+    self.x = self.start_x
+    self.y = self.start_y
 
     self.img = love.graphics.newImage("images/player.png")
     self.speed = 200
@@ -12,6 +14,35 @@ function Player:load()
     self.y_velocity = 0
     self.jump_height = -300
     self.gravity = -500
+
+    self.isRecording = true
+    self.recordStartTime = love.timer.getTime()
+    self.recordDuration = 10
+    self.recordedActions = {}
+end
+
+function Player:reset()
+    for i, pos in ipairs(Player.recordedActions) do
+        print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
+    end
+    self.x = self.start_x
+    self.y = self.start_y
+    self.y_velocity = 0
+    self.isRecording = true
+    self.recordedActions = {}
+    self.recordStartTime = love.timer.getTime()
+end
+
+function Player:record()
+    if self.isRecording then
+        local currentTime = love.timer.getTime()
+        table.insert(self.recordedActions, { x = self.x, y = self.y, t = currentTime - self.recordStartTime })
+    
+        if currentTime - self.recordStartTime > self.recordDuration then
+            self.isRecording = false
+            self:reset()
+        end
+    end
 end
 
 function Player:update(dt)
@@ -35,6 +66,10 @@ function Player:update(dt)
         self.y = self.ground
     end
 
+    if love.keyboard.isDown('r') then
+        self:reset()
+    end
+    self:record()
 end
 
 function Player:draw()
