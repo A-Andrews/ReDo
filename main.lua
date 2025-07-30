@@ -1,3 +1,17 @@
+local Platform = require("src.platform")
+local Player = require("src.player")
+
+function love.load()
+    Platform:load()
+    Player:load()
+end
+
+function love.update(dt)
+    Platform:update(dt)
+    Player:update(dt)
+end
+
 function love.draw()
-    love.graphics.print("Hello World", 400, 300)
+    Platform:draw()
+    Player:draw()
 end
