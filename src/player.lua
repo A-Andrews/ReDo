@@ -6,6 +6,12 @@ function Player:load()
 
     self.img = love.graphics.newImage("images/player.png")
     self.speed = 200
+
+    self.ground = self.y
+
+    self.y_velocity = 0
+    self.jump_height = -300
+    self.gravity = -500
 end
 
 function Player:update(dt)
@@ -14,6 +20,21 @@ function Player:update(dt)
     elseif love.keyboard.isDown('a') and self.x > 0 then
         self.x = self.x - (self.speed * dt)
     end
+
+    if love.keyboard.isDown('space') and self.y_velocity == 0 then
+        self.y_velocity = self.jump_height
+    end
+
+    if self.y_velocity ~= 0 then
+        self.y = self.y + self.y_velocity * dt
+        self.y_velocity = self.y_velocity + self.gravity * dt
+    end
+
+    if self.y > self.ground then
+        self.y_velocity = 0
+        self.y = self.ground
+    end
+
 end
 
 function Player:draw()
