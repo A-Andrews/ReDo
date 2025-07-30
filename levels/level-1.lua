@@ -4,7 +4,7 @@ function level:load()
   self.ending = love.graphics.newImage("images/end.png")
 end
 
-level.endloc = { 100, 200 }
+level.endloc = { 100, 300 }
 
 function level:update(dt)
 end
