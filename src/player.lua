@@ -5,6 +5,15 @@ function Player:load()
     self.y = love.graphics.getHeight() / 2
 
     self.img = love.graphics.newImage("images/player.png")
+    self.speed = 200
+end
+
+function Player:update(dt)
+    if love.keyboard.isDown('d') then
+        self.x = self.x + (self.speed * dt)
+    elseif love.keyboard.isDown('a') then
+        self.x = self.x - (self.speed * dt)
+    end
 end
 
 function Player:draw()

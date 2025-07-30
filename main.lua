@@ -8,6 +8,7 @@ end
 
 function love.update(dt)
     Platform:update(dt)
+    Player:update(dt)
 end
 
 function love.draw()
