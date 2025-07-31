@@ -1,17 +1,58 @@
+local GhostManager = require("src.ghostManager")
+local PlayerAttributes = require("src.playerAttributes")
+
 local Player = {}
 
 function Player:load()
-    self.x = love.graphics.getWidth() / 2
-    self.y = love.graphics.getHeight() / 2
+    self.start_x = PlayerAttributes.start_x
+    self.start_y = PlayerAttributes.start_y
+    self.x = self.start_x
+    self.y = self.start_y
 
-    self.img = love.graphics.newImage("images/player.png")
-    self.speed = 200
+    self.img = PlayerAttributes.img
+    self.speed = PlayerAttributes.speed
 
     self.ground = self.y
 
     self.y_velocity = 0
-    self.jump_height = -300
-    self.gravity = -500
+    self.jump_height = PlayerAttributes.jump_height
+    self.gravity = PlayerAttributes.gravity
+
+    self.isRecording = true
+    self.recordStartTime = love.timer.getTime()
+    self.recordDuration = 10
+    self.recordedActions = {}
+
+end
+
+function Player:reset(addGhost)
+    self.x = self.start_x
+    self.y = self.start_y
+    self.y_velocity = 0
+    self.isRecording = true
+    if addGhost then
+        GhostManager:addGhost(self.recordedActions)
+    end
+    self.recordedActions = {}
+    self.recordStartTime = love.timer.getTime()
+end
+
+function Player:keypressed(key)
+    if key == "r" then
+        self:reset(true)
+    end
+end
+
+function Player:record()
+    if self.isRecording then
+        local currentTime = love.timer.getTime()
+        table.insert(self.recordedActions, { x = self.x, y = self.y, t = currentTime - self.recordStartTime })
+    
+        if currentTime - self.recordStartTime > self.recordDuration then
+            self.isRecording = false
+            self:reset()
+        end
+    end
 end
 
 function Player:update(dt)
@@ -34,6 +75,7 @@ function Player:update(dt)
         self.y_velocity = 0
         self.y = self.ground
     end
+    self:record()
 end
 
 function Player:draw()

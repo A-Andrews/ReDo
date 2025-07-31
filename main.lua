@@ -1,5 +1,6 @@
 local Platform = require("src.platform")
 local Player = require("src.player")
+local GhostManager = require("src.ghostManager")
 local Levels = {}
 local LevelNumber = 0
 local Level
@@ -14,12 +15,14 @@ function love.load()
     Level:load()
     Platform:load()
     Player:load()
+    GhostManager:load()
 end
 
 function love.update(dt)
     Level:update(dt)
     Platform:update(dt)
     Player:update(dt)
+    GhostManager:update(dt)
     if ((Player.x - Level.endloc[1]) ^ 2 + (Player.y - Level.endloc[2]) ^ 2) < 1000 then
         print("Level complete!")
         LevelNumber = LevelNumber + 1
@@ -41,4 +44,13 @@ function love.draw()
     end
     Platform:draw()
     Player:draw()
+    GhostManager:draw()
+end
+
+function love.keypressed(key)
+    if key == "escape" then
+        love.event.quit()
+    end
+    Player:keypressed(key)
+    GhostManager:keypressed(key)
 end
