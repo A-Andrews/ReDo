@@ -23,9 +23,6 @@ function Player:load()
     self.recordDuration = 10
     self.recordedActions = {}
 
-    --I want to actually store the last three records here
-    --table inset adds to a pos in the table can choose to add to end
-    --table remove removes from a pos so can remove the first one if table is size 4
 end
 
 function Player:reset()

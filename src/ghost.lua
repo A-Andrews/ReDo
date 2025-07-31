@@ -14,18 +14,25 @@ function Ghost:new(recordedActions)
     self.x = self.start_x
     self.y = self.start_y
     self.img = love.graphics.newImage("images/player.png")
-    self. alpha = 0.5
+    self.alpha = 0.5
+    self.startTime = love.timer.getTime()
+    self.currentActionIndex = 1
+    self.timeElapsed = 0
     return ghost
 end
 
 function Ghost:update(dt)
-    if #self.recordedActions > 0 then
-        for i, action in ipairs(self.recordedActions) do
+    if self.currentActionIndex <= #self.recordedActions then
+        local action = self.recordedActions[self.currentActionIndex]
+        self.timeElapsed = action.t
+
+        if love.timer.getTime() - self.startTime >= self.timeElapsed then
             self.x = action.x
             self.y = action.y
+            self.currentActionIndex = self.currentActionIndex + 1
         end
     else
-        self.alpha = 0 -- reset ghost if no actions left
+        self.alpha = 0
     end
 end
 
