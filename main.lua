@@ -11,11 +11,13 @@ end
 function love.update(dt)
     Platform:update(dt)
     Player:update(dt)
+    GhostManager:update(dt)
 end
 
 function love.draw()
     Platform:draw()
     Player:draw()
+    GhostManager:draw()
 end
 
 function love.keypressed(key)

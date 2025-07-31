@@ -1,3 +1,5 @@
+local GhostManager = require("src.ghostManager")
+
 local Player = {}
 
 function Player:load()
@@ -45,7 +47,8 @@ function Player:reset()
     self.y = self.start_y
     self.y_velocity = 0
     self.isRecording = true
-    table.insert(self.recordedActionsList, self.recordedActions)
+    -- table.insert(self.recordedActionsList, self.recordedActions)
+    GhostManager:addGhost(self.recordedActions)
     self.recordedActions = {}
     self.recordStartTime = love.timer.getTime()
     -- for ia, posa in ipairs(self.recordedActionsList) do
