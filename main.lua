@@ -6,8 +6,10 @@ local LevelNumber = 0
 local Level
 
 function love.load()
+    local gravity = 35
     love.physics.setMeter(64)
-    World = love.physics.newWorld(0, 9.81 * 64, true)
+    World = love.physics.newWorld(0, gravity * 64, true)
+    -- World:setCallbacks(beginContact) try to prevent double jumping
     for i = 1, 2 do
         local level = love.filesystem.load('levels/level-' .. i .. '.lua')
         table.insert(Levels, level)

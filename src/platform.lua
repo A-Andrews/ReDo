@@ -5,6 +5,9 @@ function Platform:load()
     self.height = love.graphics.getHeight()
     self.x = 0
     self.y = self.height / 2
+    self.body = love.physics.newBody(World, self.x + self.width / 2, self.y + self.height / 2, "static")
+    self.shape = love.physics.newRectangleShape(self.width, self.height)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
 end
 
 function Platform:update(dt)
@@ -12,8 +15,10 @@ function Platform:update(dt)
 end
 
 function Platform:draw()
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    -- love.graphics.setColor(1, 1, 1)
+    -- love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    love.graphics.setColor(0.5, 0.5, 0.5) -- Gray color for the platform
+    love.graphics.polygon('fill', self.body:getWorldPoints(self.shape:getPoints()))
 end
 
 return Platform

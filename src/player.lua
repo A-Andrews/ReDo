@@ -24,9 +24,9 @@ function Player:load()
     self.recordedActions = {}
 
     self.box = love.physics.newBody(World, self.start_x, self.start_y, "dynamic")
-    self.box:setMass(10)
-    self.boxShape = love.physics.newRectangleShape(50, 50)
+    self.boxShape = love.physics.newRectangleShape(32, 32)
     self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
+    self.box:setLinearDamping(4)
 
 end
 
@@ -61,15 +61,21 @@ function Player:record()
 end
 
 function Player:update(dt)
+    local vx, vy = self.box:getLinearVelocity()
+
     if love.keyboard.isDown('d') and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
         self.x = self.x + (self.speed * dt)
-        self.box:applyForce(400, 0)
+        vx = self.speed
     elseif love.keyboard.isDown('a') and self.x > 0 then
         self.x = self.x - (self.speed * dt)
+        vx = -self.speed
     end
 
-    if love.keyboard.isDown('space') and self.y_velocity == 0 then
+    self.box:setLinearVelocity(vx, vy)
+
+    if love.keyboard.isDown('space') then
         self.y_velocity = self.jump_height
+        self.box:applyLinearImpulse(vx, self.jump_height)
     end
 
     if self.y_velocity ~= 0 then
