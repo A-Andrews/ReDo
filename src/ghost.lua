@@ -18,7 +18,9 @@ end
 
 function Ghost:draw()
     -- print("Drawing ghost with actions: " .. #self.recordedActions)
+    love.graphics.setColor(1, 1, 1, 0.5)
     love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 32)
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 return Ghost
