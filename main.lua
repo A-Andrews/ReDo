@@ -25,4 +25,5 @@ function love.keypressed(key)
         love.event.quit()
     end
     Player:keypressed(key)
+    GhostManager:keypressed(key)
 end
