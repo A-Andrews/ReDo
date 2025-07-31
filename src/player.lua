@@ -75,7 +75,6 @@ function Player:update(dt)
         self.y_velocity = 0
         self.y = self.ground
     end
-
     self:record()
 end
 
