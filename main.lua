@@ -6,6 +6,8 @@ local LevelNumber = 0
 local Level
 
 function love.load()
+    love.physics.setMeter(64)
+    World = love.physics.newWorld(0, 9.81 * 64, true)
     for i = 1, 2 do
         local level = love.filesystem.load('levels/level-' .. i .. '.lua')
         table.insert(Levels, level)
@@ -19,6 +21,7 @@ function love.load()
 end
 
 function love.update(dt)
+    World:update(dt)
     Level:update(dt)
     Platform:update(dt)
     Player:update(dt)

@@ -23,6 +23,11 @@ function Player:load()
     self.recordDuration = 10
     self.recordedActions = {}
 
+    self.box = love.physics.newBody(World, self.start_x, self.start_y, "dynamic")
+    self.box:setMass(10)
+    self.boxShape = love.physics.newRectangleShape(50, 50)
+    self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
+
 end
 
 function Player:reset(addGhost)
@@ -58,6 +63,7 @@ end
 function Player:update(dt)
     if love.keyboard.isDown('d') and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
         self.x = self.x + (self.speed * dt)
+        self.box:applyForce(400, 0)
     elseif love.keyboard.isDown('a') and self.x > 0 then
         self.x = self.x - (self.speed * dt)
     end
@@ -80,6 +86,9 @@ end
 
 function Player:draw()
     love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 32)
+    love.graphics.setColor(0.28, 0.63, 0.05)
+    love.graphics.polygon("fill", self.box:getWorldPoints(self.boxShape:getPoints()))
+    love.graphics.setColor(1, 1, 1)
 end
 
 return Player

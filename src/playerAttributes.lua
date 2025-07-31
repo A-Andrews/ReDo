@@ -4,7 +4,7 @@ local playerAttributes = {
     img = love.graphics.newImage("images/player.png"),
     speed = 200,
     jump_height = -300,
-    gravity = -500
+    gravity = -500,
 }
 
 return playerAttributes
