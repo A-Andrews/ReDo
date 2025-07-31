@@ -25,19 +25,21 @@ function Player:load()
 
 end
 
-function Player:reset()
+function Player:reset(addGhost)
     self.x = self.start_x
     self.y = self.start_y
     self.y_velocity = 0
     self.isRecording = true
-    GhostManager:addGhost(self.recordedActions)
+    if addGhost then
+        GhostManager:addGhost(self.recordedActions)
+    end
     self.recordedActions = {}
     self.recordStartTime = love.timer.getTime()
 end
 
 function Player:keypressed(key)
     if key == "r" then
-        self:reset()
+        self:reset(true)
     end
 end
 

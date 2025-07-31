@@ -21,6 +21,14 @@ function Ghost:new(recordedActions)
     return ghost
 end
 
+function Ghost:reset()
+    self.x = self.start_x
+    self.y = self.start_y
+    self.currentActionIndex = 1
+    self.timeElapsed = 0
+    self.startTime = love.timer.getTime()
+end
+
 function Ghost:update(dt)
     if self.currentActionIndex <= #self.recordedActions then
         local action = self.recordedActions[self.currentActionIndex]
@@ -32,7 +40,7 @@ function Ghost:update(dt)
             self.currentActionIndex = self.currentActionIndex + 1
         end
     else
-        self.alpha = 0
+        self:reset()
     end
 end
 
