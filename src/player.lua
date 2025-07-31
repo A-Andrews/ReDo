@@ -1,62 +1,41 @@
 local GhostManager = require("src.ghostManager")
+local PlayerAttributes = require("src.playerAttributes")
 
 local Player = {}
 
 function Player:load()
-    self.start_x = love.graphics.getWidth() / 2
-    self.start_y = love.graphics.getHeight() / 2
+    self.start_x = PlayerAttributes.start_x
+    self.start_y = PlayerAttributes.start_y
     self.x = self.start_x
     self.y = self.start_y
 
-    self.img = love.graphics.newImage("images/player.png")
-    self.speed = 200
+    self.img = PlayerAttributes.img
+    self.speed = PlayerAttributes.speed
 
     self.ground = self.y
 
     self.y_velocity = 0
-    self.jump_height = -300
-    self.gravity = -500
+    self.jump_height = PlayerAttributes.jump_height
+    self.gravity = PlayerAttributes.gravity
 
     self.isRecording = true
     self.recordStartTime = love.timer.getTime()
     self.recordDuration = 10
     self.recordedActions = {}
-    self.recordedActionsList = {}
-    self.isGhost = false
-    self.replayActions = {}
+
     --I want to actually store the last three records here
     --table inset adds to a pos in the table can choose to add to end
     --table remove removes from a pos so can remove the first one if table is size 4
 end
 
-function Player:replay()
-    -- create new player object with recorded action from list of recordedActions
-    --set flag that switches from control to replay
-    -- or potentially make a new object?
-end
-
--- function Player:addRecording()
-    
--- end
-
 function Player:reset()
-    -- for i, pos in ipairs(Player.recordedActions) do
-    --     print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
-    -- end
     self.x = self.start_x
     self.y = self.start_y
     self.y_velocity = 0
     self.isRecording = true
-    -- table.insert(self.recordedActionsList, self.recordedActions)
     GhostManager:addGhost(self.recordedActions)
     self.recordedActions = {}
     self.recordStartTime = love.timer.getTime()
-    -- for ia, posa in ipairs(self.recordedActionsList) do
-    --     print("Recording %d: ", ia)
-    --     for i, pos in ipairs(posa) do
-    --         print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
-    --     end
-    -- end
 end
 
 function Player:keypressed(key)
