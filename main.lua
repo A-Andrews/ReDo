@@ -1,9 +1,11 @@
 local Platform = require("src.platform")
 local Player = require("src.player")
+local GhostManager = require("src.ghostManager")
 
 function love.load()
     Platform:load()
     Player:load()
+    GhostManager:load()
 end
 
 function love.update(dt)
