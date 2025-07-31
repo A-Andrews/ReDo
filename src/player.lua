@@ -19,29 +19,47 @@ function Player:load()
     self.recordStartTime = love.timer.getTime()
     self.recordDuration = 10
     self.recordedActions = {}
+    self.recordedActionsList = {}
+    self.isGhost = false
+    self.replayActions = {}
     --I want to actually store the last three records here
     --table inset adds to a pos in the table can choose to add to end
     --table remove removes from a pos so can remove the first one if table is size 4
 end
 
 function Player:replay()
-    --function for replaying the recordedActions on screen
+    -- create new player object with recorded action from list of recordedActions
+    --set flag that switches from control to replay
+    -- or potentially make a new object?
 end
 
-function Player:addRecording()
-    --adds recording to the recordedActions table and removes first one if table size is 4
-end
+-- function Player:addRecording()
+    
+-- end
 
 function Player:reset()
-    for i, pos in ipairs(Player.recordedActions) do
-        print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
-    end
+    -- for i, pos in ipairs(Player.recordedActions) do
+    --     print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
+    -- end
     self.x = self.start_x
     self.y = self.start_y
     self.y_velocity = 0
     self.isRecording = true
+    table.insert(self.recordedActionsList, self.recordedActions)
     self.recordedActions = {}
     self.recordStartTime = love.timer.getTime()
+    -- for ia, posa in ipairs(self.recordedActionsList) do
+    --     print("Recording %d: ", ia)
+    --     for i, pos in ipairs(posa) do
+    --         print(string.format("t=%.2f x=%.2f y=%.2f", pos.t, pos.x, pos.y))
+    --     end
+    -- end
+end
+
+function Player:keypressed(key)
+    if key == "r" then
+        self:reset()
+    end
 end
 
 function Player:record()
@@ -77,9 +95,6 @@ function Player:update(dt)
         self.y = self.ground
     end
 
-    if love.keyboard.isDown('r') then
-        self:reset()
-    end
     self:record()
 end
 
