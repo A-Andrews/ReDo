@@ -85,6 +85,7 @@ function Ghost:reset()
     self.timeElapsed = 0
     self.startTime = love.timer.getTime()
     self.collidableGhosts = {}
+    self.canCollideWithPlayer = false
 end
 
 function Ghost:update(dt)
