@@ -31,13 +31,16 @@ function Ghost:new(recordedActions)
     ghost.boxFixture:setUserData(ghost)
     ghost.box:setLinearDamping(4)
 
-    ghost.boxFixture:setCategory(CollisionCategories.GHOST)
-    ghost.boxFixture:setMask(CollisionCategories.PLAYER, CollisionCategories.GHOST)
+    ghost.canCollide = false
 
     ghost.onGround = false
 
     WorldManager:registerCollisionCallback(ghost.boxFixture,
         { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact })
+    --need some way to track which ghosts and players are colliding
+    --setting the mask here should be fine
+    --this wont work because it causes everything to collide/not collide
+    -- keep a table of all ghost ids (give each one a timestamp as an id) then when contact is broken add the ghost id when the contact ends to the list of ghosts that can collide
     return ghost
 end
 
