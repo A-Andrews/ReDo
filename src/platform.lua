@@ -1,4 +1,5 @@
 local WorldManager = require("src.worldManager")
+local CollisionCategories = require("src.collisionCategories")
 local Platform = {}
 
 function Platform:load()
@@ -13,6 +14,9 @@ function Platform:load()
     self.fixture:setUserData(self)
     WorldManager:registerCollisionCallback(self.fixture, { owner = self, beginContact = self.beginContact, endContact = self
     .endContact })
+
+    self.fixture:setCategory(CollisionCategories.PLATFORM)
+
 end
 
 function Platform:beginContact(other, coll)

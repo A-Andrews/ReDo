@@ -1,39 +1,43 @@
 local PlayerAttributes = require("src.playerAttributes")
 local WorldManager = require("src.worldManager")
+local CollisionCategories = require("src.collisionCategories")
 local Ghost = {}
 Ghost.__index = Ghost
 
 function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
     ghost.recordedActions = recordedActions
-    self.start_x = PlayerAttributes.start_x
-    self.start_y = PlayerAttributes.start_y
+    ghost.start_x = PlayerAttributes.start_x
+    ghost.start_y = PlayerAttributes.start_y
 
-    self.img = PlayerAttributes.img
-    self.speed = PlayerAttributes.speed
-    self.jump_height = PlayerAttributes.jump_height
-    self.gravity = PlayerAttributes.gravity
+    ghost.img = PlayerAttributes.img
+    ghost.speed = PlayerAttributes.speed
+    ghost.jump_height = PlayerAttributes.jump_height
+    ghost.gravity = PlayerAttributes.gravity
 
-    self.x = self.start_x
-    self.y = self.start_y
-    self.img = love.graphics.newImage("images/player.png")
-    self.alpha = 0.5
+    ghost.x = ghost.start_x
+    ghost.y = ghost.start_y
 
-    self.startTime = love.timer.getTime()
-    self.currentActionIndex = 1
-    self.timeElapsed = 0
+    ghost.alpha = 0.5
 
-    self.box = love.physics.newBody(WorldManager:getWorld(), self.start_x, self.start_y, "dynamic")
-    self.boxShape = love.physics.newRectangleShape(32, 32)
-    self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
-    self.type = "Ghost"
-    self.boxFixture:setUserData(self)
-    self.box:setLinearDamping(4)
+    ghost.startTime = love.timer.getTime()
+    ghost.currentActionIndex = 1
+    ghost.timeElapsed = 0
 
-    self.onGround = false
+    ghost.box = love.physics.newBody(WorldManager:getWorld(), ghost.start_x, ghost.start_y, "dynamic")
+    ghost.boxShape = love.physics.newRectangleShape(32, 32)
+    ghost.boxFixture = love.physics.newFixture(ghost.box, ghost.boxShape)
+    ghost.type = "Ghost"
+    ghost.boxFixture:setUserData(ghost)
+    ghost.box:setLinearDamping(4)
 
-    WorldManager:registerCollisionCallback(self.boxFixture,
-        { owner = self, beginContact = self.beginContact, endContact = self.endContact })
+    ghost.boxFixture:setCategory(CollisionCategories.GHOST)
+    ghost.boxFixture:setMask(CollisionCategories.PLAYER, CollisionCategories.GHOST)
+
+    ghost.onGround = false
+
+    WorldManager:registerCollisionCallback(ghost.boxFixture,
+        { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact })
     return ghost
 end
 

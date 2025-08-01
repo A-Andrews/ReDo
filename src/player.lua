@@ -1,6 +1,7 @@
 local GhostManager = require("src.ghostManager")
 local PlayerAttributes = require("src.playerAttributes")
 local WorldManager = require("src.worldManager")
+local CollisionCategories = require("src.collisionCategories")
 
 local Player = {}
 
@@ -30,6 +31,9 @@ function Player:load()
     self.type = "Player"
     self.boxFixture:setUserData(self)
     self.box:setLinearDamping(4)
+    
+    self.boxFixture:setCategory(CollisionCategories.PLAYER)
+    self.boxFixture:setMask(CollisionCategories.GHOST)
 
     self.onGround = false
 
