@@ -94,7 +94,7 @@ function Player:update(dt)
     if love.keyboard.isDown('space') and self.onGround then
         -- fix double jumping and inifnite jumping when pressed once issue
         self.y_velocity = self.jump_height
-        self.box:applyLinearImpulse(vx, self.jump_height)
+        self.box:applyLinearImpulse(0, self.jump_height)
     end
 
     if self.y_velocity ~= 0 then
