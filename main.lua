@@ -1,3 +1,4 @@
+local WorldManager = require("src.worldManager")
 local Platform = require("src.platform")
 local Player = require("src.player")
 local GhostManager = require("src.ghostManager")
@@ -6,6 +7,7 @@ local LevelNumber = 0
 local Level
 
 function love.load()
+    WorldManager:load()
     for i = 1, 2 do
         local level = love.filesystem.load('levels/level-' .. i .. '.lua')
         table.insert(Levels, level)
@@ -19,6 +21,7 @@ function love.load()
 end
 
 function love.update(dt)
+    WorldManager:update(dt)
     Level:update(dt)
     Platform:update(dt)
     Player:update(dt)
