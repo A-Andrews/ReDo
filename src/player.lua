@@ -49,9 +49,8 @@ function Player:endContact(other, coll)
 end
 
 function Player:reset(addGhost)
-    self.x = self.start_x
-    self.y = self.start_y
-    self.y_velocity = 0
+    self.box:setPosition(self.start_x, self.start_y)
+    self.box:setLinearVelocity(0, 0)
     self.isRecording = true
     if addGhost then
         GhostManager:addGhost(self.recordedActions)
@@ -69,7 +68,7 @@ end
 function Player:record()
     if self.isRecording then
         local currentTime = love.timer.getTime()
-        table.insert(self.recordedActions, { x = self.x, y = self.y, t = currentTime - self.recordStartTime })
+        table.insert(self.recordedActions, { left = love.keyboard.isDown('d'), right = love.keyboard.isDown('a'), jump = love.keyboard.isDown('space'), t = currentTime - self.recordStartTime })
     
         if currentTime - self.recordStartTime > self.recordDuration then
             self.isRecording = false
@@ -82,35 +81,20 @@ function Player:update(dt)
     local vx, vy = self.box:getLinearVelocity()
 
     if love.keyboard.isDown('d') and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
-        self.x = self.x + (self.speed * dt)
         vx = self.speed
     elseif love.keyboard.isDown('a') and self.x > 0 then
-        self.x = self.x - (self.speed * dt)
         vx = -self.speed
     end
 
     self.box:setLinearVelocity(vx, vy)
 
     if love.keyboard.isDown('space') and self.onGround then
-        -- fix double jumping and inifnite jumping when pressed once issue
-        self.y_velocity = self.jump_height
         self.box:applyLinearImpulse(0, self.jump_height)
-    end
-
-    if self.y_velocity ~= 0 then
-        self.y = self.y + self.y_velocity * dt
-        self.y_velocity = self.y_velocity - self.gravity * dt
-    end
-
-    if self.y > self.ground then
-        self.y_velocity = 0
-        self.y = self.ground
     end
     self:record()
 end
 
 function Player:draw()
-    love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 32)
     love.graphics.setColor(0.28, 0.63, 0.05)
     love.graphics.polygon("fill", self.box:getWorldPoints(self.boxShape:getPoints()))
     love.graphics.setColor(1, 1, 1)

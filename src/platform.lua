@@ -27,9 +27,7 @@ function Platform:update(dt)
 end
 
 function Platform:draw()
-    -- love.graphics.setColor(1, 1, 1)
-    -- love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-    love.graphics.setColor(0.5, 0.5, 0.5) -- Gray color for the platform
+    love.graphics.setColor(0.5, 0.5, 0.5)
     love.graphics.polygon('fill', self.body:getWorldPoints(self.shape:getPoints()))
 end
 
