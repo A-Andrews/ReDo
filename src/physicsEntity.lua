@@ -14,7 +14,7 @@ function PhysicsEntity:new()
     physicsEntity.box = love.physics.newBody(WorldManager:getWorld(), physicsEntity.start_x, physicsEntity.start_y, "dynamic")
     physicsEntity.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
     physicsEntity.boxFixture = love.physics.newFixture(physicsEntity.box, physicsEntity.boxShape)
-    physicsEntity.box:setLinearDamping(4)
+    physicsEntity.box:setLinearDamping(PlayerAttributes.linearDamping)
     return physicsEntity
 end
 

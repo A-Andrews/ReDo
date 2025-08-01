@@ -1,6 +1,7 @@
 local WorldManager = require("src.worldManager")
 local MovementController = require("src.movementController")
 local PhysicsEntity = require("src.physicsEntity")
+local PlayerAttributes = require("src.playerAttributes")
 local Ghost = {}
 Ghost.__index = Ghost
 
@@ -13,6 +14,7 @@ function Ghost:new(recordedActions)
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
     ghost.type = "Ghost"
+    ghost.colour = PlayerAttributes.colour
 
     ghost.physicsEntity = PhysicsEntity:new()
     ghost.physicsEntity.boxFixture:setUserData(ghost)
@@ -86,7 +88,7 @@ function Ghost:update(dt)
 end
 
 function Ghost:draw()
-    love.graphics.setColor(0.28, 0.63, 0.05, self.alpha)
+    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b, self.alpha)
     love.graphics.polygon("fill", self.physicsEntity.box:getWorldPoints(self.physicsEntity.boxShape:getPoints()))
     love.graphics.setColor(1, 1, 1)
 end

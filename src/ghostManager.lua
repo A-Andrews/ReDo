@@ -14,7 +14,6 @@ function GhostManager:keypressed(key)
 end
 
 function GhostManager:addGhost(actions)
-    print("Adding ghost with actions: " .. #actions)
     local ghost = Ghost:new(actions)
     table.insert(self.ghosts, ghost)
 end

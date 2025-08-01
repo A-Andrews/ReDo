@@ -1,9 +1,9 @@
+local WorldAttributes = require("src.worldAttributes")
 local WorldManager = {}
 
 function WorldManager:load()
-    local gravity = 35
-    love.physics.setMeter(64)
-    self.world = love.physics.newWorld(0, gravity * 64, true)
+    love.physics.setMeter(WorldAttributes.meter)
+    self.world = love.physics.newWorld(0, WorldAttributes.gravity, true)
     self.collisionCallbacks = {}
     self.world:setCallbacks(
     function(a, b, coll)

@@ -2,6 +2,9 @@ local GhostManager = require("src.ghostManager")
 local WorldManager = require("src.worldManager")
 local MovementController = require("src.movementController")
 local PhysicsEntity = require("src.physicsEntity")
+local PlayerAttributes = require("src.playerAttributes")
+local Countdown = require("src.countdown")
+
 
 local Player = {}
 
@@ -9,9 +12,10 @@ function Player:load()
 
     self.isRecording = true
     self.recordStartTime = love.timer.getTime()
-    self.recordDuration = 10
+    self.recordDuration = Countdown.duration
     self.recordedActions = {}
     self.type = "Player"
+    self.colour = PlayerAttributes.colour
 
     self.physicsEntity = PhysicsEntity:new()
     self.physicsEntity.boxFixture:setUserData(self)
@@ -65,7 +69,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    love.graphics.setColor(0.28, 0.63, 0.05)
+    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
     love.graphics.polygon("fill", self.physicsEntity.box:getWorldPoints(self.physicsEntity.boxShape:getPoints()))
     love.graphics.setColor(1, 1, 1)
 end
