@@ -14,10 +14,7 @@ function Ghost:new(recordedActions)
     ghost.speed = PlayerAttributes.speed
     ghost.jump_height = PlayerAttributes.jump_height
     ghost.gravity = PlayerAttributes.gravity
-
-    ghost.x = ghost.start_x
-    ghost.y = ghost.start_y
-
+    
     ghost.alpha = 0.5
 
     ghost.startTime = love.timer.getTime()
