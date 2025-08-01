@@ -7,7 +7,7 @@ local Player = {}
 
 function Player:load()
     self.start_x = PlayerAttributes.start_x
-    self.start_y = PlayerAttributes.start_y
+    self.start_y = PlayerAttributes.start_y - PlayerAttributes.size / 2
     self.x = self.start_x
     self.y = self.start_y
 
@@ -26,12 +26,12 @@ function Player:load()
     self.recordedActions = {}
 
     self.box = love.physics.newBody(WorldManager:getWorld(), self.start_x, self.start_y, "dynamic")
-    self.boxShape = love.physics.newRectangleShape(32, 32)
+    self.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
     self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
     self.type = "Player"
     self.boxFixture:setUserData(self)
     self.box:setLinearDamping(4)
-    
+
     self.boxFixture:setCategory(CollisionCategories.PLAYER)
     self.boxFixture:setMask(CollisionCategories.GHOST)
 

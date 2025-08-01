@@ -8,7 +8,7 @@ function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
     ghost.recordedActions = recordedActions
     ghost.start_x = PlayerAttributes.start_x
-    ghost.start_y = PlayerAttributes.start_y
+    ghost.start_y = PlayerAttributes.start_y - PlayerAttributes.size / 2
 
     ghost.img = PlayerAttributes.img
     ghost.speed = PlayerAttributes.speed
@@ -25,7 +25,7 @@ function Ghost:new(recordedActions)
     ghost.timeElapsed = 0
 
     ghost.box = love.physics.newBody(WorldManager:getWorld(), ghost.start_x, ghost.start_y, "dynamic")
-    ghost.boxShape = love.physics.newRectangleShape(32, 32)
+    ghost.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
     ghost.boxFixture = love.physics.newFixture(ghost.box, ghost.boxShape)
     ghost.type = "Ghost"
     ghost.boxFixture:setUserData(ghost)

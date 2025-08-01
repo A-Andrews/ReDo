@@ -5,6 +5,7 @@ local playerAttributes = {
     speed = 500,
     jump_height = -200,
     gravity = -500,
+    size = 32
 }
 
 return playerAttributes
