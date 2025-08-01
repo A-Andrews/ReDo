@@ -1,5 +1,6 @@
 local GhostManager = require("src.ghostManager")
 local PlayerAttributes = require("src.playerAttributes")
+local WorldManager = require("src.worldManager")
 
 local Player = {}
 
@@ -23,10 +24,13 @@ function Player:load()
     self.recordDuration = 10
     self.recordedActions = {}
 
-    self.box = love.physics.newBody(World, self.start_x, self.start_y, "dynamic")
+    self.box = love.physics.newBody(WorldManager:getWorld(), self.start_x, self.start_y, "dynamic")
     self.boxShape = love.physics.newRectangleShape(32, 32)
     self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
+    self.boxFixture:setUserData("Player")
     self.box:setLinearDamping(4)
+
+    self.onGround = false
 
 end
 
@@ -73,7 +77,8 @@ function Player:update(dt)
 
     self.box:setLinearVelocity(vx, vy)
 
-    if love.keyboard.isDown('space') then
+    if love.keyboard.isDown('space') and self.onGround then
+        -- fix double jumping and inifnite jumping when pressed once issue
         self.y_velocity = self.jump_height
         self.box:applyLinearImpulse(vx, self.jump_height)
     end

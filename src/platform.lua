@@ -1,3 +1,4 @@
+local WorldManager = require("src.worldManager")
 local Platform = {}
 
 function Platform:load()
@@ -5,7 +6,7 @@ function Platform:load()
     self.height = love.graphics.getHeight()
     self.x = 0
     self.y = self.height / 2
-    self.body = love.physics.newBody(World, self.x + self.width / 2, self.y + self.height / 2, "static")
+    self.body = love.physics.newBody(WorldManager:getWorld(), self.x + self.width / 2, self.y + self.height / 2, "static")
     self.shape = love.physics.newRectangleShape(self.width, self.height)
     self.fixture = love.physics.newFixture(self.body, self.shape)
 end
