@@ -2,6 +2,7 @@ local GhostManager = require("src.ghostManager")
 local PlayerAttributes = require("src.playerAttributes")
 local WorldManager = require("src.worldManager")
 local CollisionCategories = require("src.collisionCategories")
+local MovementController = require("src.movementController")
 
 local Player = {}
 
@@ -82,19 +83,8 @@ function Player:record()
 end
 
 function Player:update(dt)
-    local vx, vy = self.box:getLinearVelocity()
 
-    if love.keyboard.isDown('d') and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
-        vx = self.speed
-    elseif love.keyboard.isDown('a') and self.x > 0 then
-        vx = -self.speed
-    end
-
-    self.box:setLinearVelocity(vx, vy)
-
-    if love.keyboard.isDown('space') and self.onGround then
-        self.box:applyLinearImpulse(0, self.jump_height)
-    end
+    MovementController.updateMovement(self, { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
     self:record()
 end
 
