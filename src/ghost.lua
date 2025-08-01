@@ -31,28 +31,50 @@ function Ghost:new(recordedActions)
     ghost.boxFixture:setUserData(ghost)
     ghost.box:setLinearDamping(4)
 
-    ghost.canCollide = false
+    ghost.canCollideWithPlayer = false
 
     ghost.onGround = false
 
     WorldManager:registerCollisionCallback(ghost.boxFixture,
-        { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact })
-    --need some way to track which ghosts and players are colliding
-    --setting the mask here should be fine
-    --this wont work because it causes everything to collide/not collide
-    -- keep a table of all ghost ids (give each one a timestamp as an id) then when contact is broken add the ghost id when the contact ends to the list of ghosts that can collide
+        { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact, preSolve = ghost.preSolve })
+    ghost.id = love.timer.getTime()
+    ghost.collidableGhosts = {}
     return ghost
 end
 
+function Ghost:preSolve(other, coll)
+    local userdata = other:getUserData()
+    if userdata then
+        if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
+            coll:setEnabled(false)
+        end
+        if userdata.type == "Player" and not self.canCollideWithPlayer then
+            coll:setEnabled(false)
+        end
+    end
+end
+
 function Ghost:beginContact(other, coll)
-    if other:getUserData() and other:getUserData().type == "Platform" then
-        self.onGround = true
+    local userdata = other:getUserData()
+    if userdata then
+        if userdata.type == "Platform" then
+            self.onGround = true
+        end
     end
 end
 
 function Ghost:endContact(other, coll)
-    if other:getUserData() and other:getUserData().type == "Platform" then
-        self.onGround = false
+    local userdata = other:getUserData()
+    if userdata then
+        if userdata.type == "Platform" then
+            self.onGround = false
+        end
+        if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
+            self.collidableGhosts[userdata.id] = true
+        end
+        if userdata.type == "Player" then
+            self.canCollideWithPlayer = true
+        end
     end
 end
 
@@ -62,6 +84,8 @@ function Ghost:reset()
     self.currentActionIndex = 1
     self.timeElapsed = 0
     self.startTime = love.timer.getTime()
+    self.collidableGhosts = {}
+    self.canCollideWithPlayer = false
 end
 
 function Ghost:update(dt)
