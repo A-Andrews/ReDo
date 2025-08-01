@@ -27,11 +27,25 @@ function Player:load()
     self.box = love.physics.newBody(WorldManager:getWorld(), self.start_x, self.start_y, "dynamic")
     self.boxShape = love.physics.newRectangleShape(32, 32)
     self.boxFixture = love.physics.newFixture(self.box, self.boxShape)
-    self.boxFixture:setUserData("Player")
+    self.type = "Player"
+    self.boxFixture:setUserData(self)
     self.box:setLinearDamping(4)
 
     self.onGround = false
 
+    WorldManager:registerCollisionCallback(self.boxFixture, { owner = self, beginContact = self.beginContact, endContact = self.endContact})
+end
+
+function Player:beginContact(other, coll)
+    if other:getUserData() and other:getUserData().type == "Platform" then
+        self.onGround = true
+    end
+end
+
+function Player:endContact(other, coll)
+    if other:getUserData() and other:getUserData().type == "Platform" then
+        self.onGround = false
+    end
 end
 
 function Player:reset(addGhost)

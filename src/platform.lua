@@ -9,6 +9,17 @@ function Platform:load()
     self.body = love.physics.newBody(WorldManager:getWorld(), self.x + self.width / 2, self.y + self.height / 2, "static")
     self.shape = love.physics.newRectangleShape(self.width, self.height)
     self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.type = "Platform"
+    self.fixture:setUserData(self)
+    WorldManager:registerCollisionCallback(self.fixture, { owner = self, beginContact = self.beginContact, endContact = self
+    .endContact })
+end
+
+function Platform:beginContact(other, coll)
+
+end
+
+function Platform:endContact(other, coll)
 end
 
 function Platform:update(dt)
