@@ -1,38 +1,28 @@
-local PlayerAttributes = require("src.playerAttributes")
 local WorldManager = require("src.worldManager")
 local MovementController = require("src.movementController")
+local PhysicsEntity = require("src.physicsEntity")
 local Ghost = {}
 Ghost.__index = Ghost
 
 function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
     ghost.recordedActions = recordedActions
-    ghost.start_x = PlayerAttributes.start_x
-    ghost.start_y = PlayerAttributes.start_y - PlayerAttributes.size / 2
 
-    ghost.img = PlayerAttributes.img
-    ghost.speed = PlayerAttributes.speed
-    ghost.jump_height = PlayerAttributes.jump_height
-    ghost.gravity = PlayerAttributes.gravity
-    
     ghost.alpha = 0.5
 
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
 
-    ghost.box = love.physics.newBody(WorldManager:getWorld(), ghost.start_x, ghost.start_y, "dynamic")
-    ghost.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
-    ghost.boxFixture = love.physics.newFixture(ghost.box, ghost.boxShape)
     ghost.type = "Ghost"
-    ghost.boxFixture:setUserData(ghost)
-    ghost.box:setLinearDamping(4)
 
+    ghost.physicsEntity = PhysicsEntity:new()
+    
+    ghost.physicsEntity.boxFixture:setUserData(ghost)
     ghost.canCollideWithPlayer = false
 
-    ghost.onGround = false
 
-    WorldManager:registerCollisionCallback(ghost.boxFixture,
+    WorldManager:registerCollisionCallback(ghost.physicsEntity.boxFixture,
         { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact, preSolve = ghost.preSolve })
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
@@ -55,7 +45,7 @@ function Ghost:beginContact(other, coll)
     local userdata = other:getUserData()
     if userdata then
         if userdata.type == "Platform" then
-            self.onGround = true
+            self.physicsEntity.onGround = true
         end
     end
 end
@@ -64,7 +54,7 @@ function Ghost:endContact(other, coll)
     local userdata = other:getUserData()
     if userdata then
         if userdata.type == "Platform" then
-            self.onGround = false
+            self.physicsEntity.onGround = false
         end
         if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
             self.collidableGhosts[userdata.id] = true
@@ -76,8 +66,7 @@ function Ghost:endContact(other, coll)
 end
 
 function Ghost:reset()
-    self.box:setPosition(self.start_x, self.start_y)
-    self.box:setLinearVelocity(0, 0)
+    self.physicsEntity:reset()
     self.currentActionIndex = 1
     self.timeElapsed = 0
     self.startTime = love.timer.getTime()
@@ -101,7 +90,7 @@ end
 
 function Ghost:draw()
     love.graphics.setColor(0.28, 0.63, 0.05, self.alpha)
-    love.graphics.polygon("fill", self.box:getWorldPoints(self.boxShape:getPoints()))
+    love.graphics.polygon("fill", self.physicsEntity.box:getWorldPoints(self.physicsEntity.boxShape:getPoints()))
     love.graphics.setColor(1, 1, 1)
 end
 
