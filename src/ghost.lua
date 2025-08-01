@@ -6,26 +6,23 @@ Ghost.__index = Ghost
 
 function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
+
     ghost.recordedActions = recordedActions
-
     ghost.alpha = 0.5
-
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
-
     ghost.type = "Ghost"
 
     ghost.physicsEntity = PhysicsEntity:new()
-    
     ghost.physicsEntity.boxFixture:setUserData(ghost)
     ghost.canCollideWithPlayer = false
-
-
     WorldManager:registerCollisionCallback(ghost.physicsEntity.boxFixture,
         { owner = ghost, beginContact = ghost.beginContact, endContact = ghost.endContact, preSolve = ghost.preSolve })
+
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
+
     return ghost
 end
 

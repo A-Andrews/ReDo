@@ -14,9 +14,7 @@ function Player:load()
     self.type = "Player"
 
     self.physicsEntity = PhysicsEntity:new()
-    
     self.physicsEntity.boxFixture:setUserData(self)
-
     WorldManager:registerCollisionCallback(self.physicsEntity.boxFixture, { owner = self, beginContact = self.beginContact, endContact = self.endContact})
 end
 
