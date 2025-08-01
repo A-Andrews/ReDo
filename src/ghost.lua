@@ -1,6 +1,6 @@
 local PlayerAttributes = require("src.playerAttributes")
 local WorldManager = require("src.worldManager")
-local CollisionCategories = require("src.collisionCategories")
+local MovementController = require("src.movementController")
 local Ghost = {}
 Ghost.__index = Ghost
 
@@ -94,19 +94,7 @@ function Ghost:update(dt)
         self.timeElapsed = action.t
 
         if love.timer.getTime() - self.startTime >= self.timeElapsed then
-            local vx, vy = self.box:getLinearVelocity()
-
-            if action.left and self.x < (love.graphics.getWidth() - self.img:getWidth()) then
-                vx = self.speed
-            elseif action.right and self.x > 0 then
-                vx = -self.speed
-            end
-
-            self.box:setLinearVelocity(vx, vy)
-
-            if action.jump and self.onGround then
-                self.box:applyLinearImpulse(0, self.jump_height)
-            end
+            MovementController.updateMovement(self, action)
         end
         self.currentActionIndex = self.currentActionIndex + 1
     else

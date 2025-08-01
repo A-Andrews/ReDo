@@ -1,5 +1,4 @@
 local MovementController = {}
--- this is to handle movement from the player and from ghosts
 
 function MovementController.updateMovement(entity, input)
     local box = entity.box
