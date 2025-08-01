@@ -3,6 +3,7 @@ local Platform = require("src.platform")
 local Player = require("src.player")
 local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
+local ScoreManager = require("src.scoreManager")
 local Levels = {}
 local LevelNumber = 0
 local Level
@@ -17,6 +18,7 @@ function love.load()
     Level = Levels[LevelNumber]()
     Level:load()
     Countdown:load()
+    ScoreManager:load()
     Platform:load()
     Player:load()
     GhostManager:load()
@@ -49,6 +51,7 @@ function love.draw()
         Level:draw()
     end
     Countdown:draw()
+    ScoreManager:draw()
     Platform:draw()
     Player:draw()
     GhostManager:draw()
