@@ -31,19 +31,19 @@ function love.update(dt)
     Platform:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
-    if ((Player.x - Level.endloc[1]) ^ 2 + (Player.y - Level.endloc[2]) ^ 2) < 1000 then
-        print("Level complete!")
-        LevelNumber = LevelNumber + 1
-        Level = Levels[LevelNumber]
-        if not Level then
-            print("Game completed!")
-            love.event.quit(0)
-        else
-            Level = Level()
-            Level:load()
-            Player:load()
-        end
-    end
+    -- if ((Player.x - Level.endloc[1]) ^ 2 + (Player.y - Level.endloc[2]) ^ 2) < 1000 then
+    --     print("Level complete!")
+    --     LevelNumber = LevelNumber + 1
+    --     Level = Levels[LevelNumber]
+    --     if not Level then
+    --         print("Game completed!")
+    --         love.event.quit(0)
+    --     else
+    --         Level = Level()
+    --         Level:load()
+    --         Player:load()
+    --     end
+    -- end
 end
 
 function love.draw()
