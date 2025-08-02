@@ -19,8 +19,13 @@ end
 
 function MovementController.jump(entity, jump)
     local box = entity.physicsEntity.box
+    
+    -- Checks whether it is possible to jump based on whether the player is on the ground or has coyote time left
     local canJump = entity.physicsEntity.onGround or
         (love.timer.getTime() - entity.physicsEntity.leftGroundTime < entity.physicsEntity.coyoteTime)
+
+    -- Allows jumping just before hitting the ground
+    local bufferedJump = love.timer.getTime() - entity.physicsEntity.jumpBufferTime < entity.physicsEntity.jumpBuffer
     
     if jump and not entity.physicsEntity.jumpPressed then
         entity.physicsEntity.jumpBufferTime = love.timer.getTime()
@@ -30,7 +35,7 @@ function MovementController.jump(entity, jump)
         entity.physicsEntity.jumpPressed = false
     end
 
-    if jump and canJump and not entity.physicsEntity.hasJumped then
+    if jump and canJump and bufferedJump and not entity.physicsEntity.hasJumped then
         box:applyLinearImpulse(0, entity.physicsEntity.jump_height)
         entity.physicsEntity.hasJumped = true
     end
