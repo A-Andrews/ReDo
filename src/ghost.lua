@@ -2,6 +2,7 @@ local WorldManager = require("src.worldManager")
 local MovementController = require("src.movementController")
 local PhysicsEntity = require("src.physicsEntity")
 local PlayerAttributes = require("src.playerAttributes")
+local Countdown = require("src.countdown")
 local Ghost = {}
 Ghost.__index = Ghost
 
@@ -13,6 +14,7 @@ function Ghost:new(recordedActions)
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
+    ghost.duration = Countdown.duration
     ghost.type = "Ghost"
     ghost.colour = PlayerAttributes.colour
 
@@ -41,25 +43,27 @@ function Ghost:preSolve(other, coll)
 end
 
 function Ghost:beginContact(other, coll)
-    local userdata = other:getUserData()
-    if userdata then
-        if userdata.type == "Platform" then
-            self.physicsEntity.onGround = true
+    local otherUserData = other:getUserData()
+    if otherUserData then
+        if otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player" then
+            self.physicsEntity.contacts[other] = true
+            self.physicsEntity.leftGroundTime = 0
         end
     end
 end
 
 function Ghost:endContact(other, coll)
-    local userdata = other:getUserData()
-    if userdata then
-        if userdata.type == "Platform" then
-            self.physicsEntity.onGround = false
+    local otherUserData = other:getUserData()
+    if otherUserData then
+        if otherUserData.type == "Ghost" and self.collidableGhosts[otherUserData.id] == nil then
+            self.collidableGhosts[otherUserData.id] = true
         end
-        if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
-            self.collidableGhosts[userdata.id] = true
-        end
-        if userdata.type == "Player" then
+        if otherUserData.type == "Player" then
             self.canCollideWithPlayer = true
+        end
+        if self.physicsEntity.contacts[other] == true then
+            self.physicsEntity.contacts[other] = nil
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
     end
 end
@@ -82,8 +86,10 @@ function Ghost:update(dt)
             MovementController.updateMovement(self, action)
         end
         self.currentActionIndex = self.currentActionIndex + 1
-    else
+    elseif self.timeElapsed >= self.duration then
         self:reset()
+    else
+        self.timeElapsed = self.timeElapsed + dt
     end
 end
 

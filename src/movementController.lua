@@ -30,8 +30,13 @@ function MovementController.jump(entity, jump)
         end
     end
 
+    local count = 0
+    for _, _ in pairs(entity.physicsEntity.contacts) do
+        count = count + 1
+    end
+
     -- Checks whether it is possible to jump based on whether the player is on the ground or has coyote time left
-    local canJump = entity.physicsEntity.onGround or
+    local canJump = count > 0 or
         (love.timer.getTime() - entity.physicsEntity.leftGroundTime < entity.physicsEntity.coyoteTime)
 
     -- Allows jumping just before hitting the ground

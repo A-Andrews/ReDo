@@ -30,17 +30,21 @@ end
 
 function Player:beginContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost") then
-        self.physicsEntity.onGround = true
-        self.physicsEntity.leftGroundTime = 0
+    if otherUserData then
+        if otherUserData.type == "Platform" or otherUserData.type == "Ghost" then
+            self.physicsEntity.contacts[other] = true
+            self.physicsEntity.leftGroundTime = 0
+        end
     end
 end
 
 function Player:endContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost") then
-        self.physicsEntity.onGround = false
-        self.physicsEntity.leftGroundTime = love.timer.getTime()
+    if otherUserData then
+        if self.physicsEntity.contacts[other] == true then
+            self.physicsEntity.contacts[other] = nil
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
+        end
     end
 end
 
