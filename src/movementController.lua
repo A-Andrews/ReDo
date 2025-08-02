@@ -51,7 +51,7 @@ function MovementController.jump(entity, jump)
     end
 
     if jump and canJump and bufferedJump and not entity.physicsEntity.hasJumped then
-        box:applyLinearImpulse(0, entity.physicsEntity.jump_height)
+        box:applyLinearImpulse(0, entity.physicsEntity.jumpHeight)
         entity.physicsEntity.hasJumped = true
     end
 end

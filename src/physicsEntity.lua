@@ -5,11 +5,11 @@ PhysicsEntity.__index = PhysicsEntity
 
 function PhysicsEntity:new()
     local physicsEntity = setmetatable({}, PhysicsEntity)
-    physicsEntity.start_x = PlayerAttributes.start_x
-    physicsEntity.start_y = PlayerAttributes.start_y - PlayerAttributes.size / 2
+    physicsEntity.startX = PlayerAttributes.startX
+    physicsEntity.startY = PlayerAttributes.startY - PlayerAttributes.size / 2
     physicsEntity.speed = PlayerAttributes.speed
 
-    physicsEntity.jump_height = PlayerAttributes.jump_height
+    physicsEntity.jumpHeight = PlayerAttributes.jumpHeight
     physicsEntity.coyoteTime = PlayerAttributes.coyoteTime
     physicsEntity.leftGroundTime = 0
     physicsEntity.jumpBuffer = PlayerAttributes.jumpBuffer
@@ -18,7 +18,7 @@ function PhysicsEntity:new()
     physicsEntity.jumpPressed = false
     physicsEntity.contacts = {}
 
-    physicsEntity.box = love.physics.newBody(WorldManager:getWorld(), physicsEntity.start_x, physicsEntity.start_y, "dynamic")
+    physicsEntity.box = love.physics.newBody(WorldManager:getWorld(), physicsEntity.startX, physicsEntity.startY, "dynamic")
     physicsEntity.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
     physicsEntity.boxFixture = love.physics.newFixture(physicsEntity.box, physicsEntity.boxShape)
     physicsEntity.box:setLinearDamping(PlayerAttributes.linearDamping)
@@ -26,7 +26,7 @@ function PhysicsEntity:new()
 end
 
 function PhysicsEntity:reset()
-    self.box:setPosition(self.start_x, self.start_y)
+    self.box:setPosition(self.startX, self.startY)
     self.box:setLinearVelocity(0, 0)
     self.leftGroundTime = 0
     self.jumpBufferTime = 0
