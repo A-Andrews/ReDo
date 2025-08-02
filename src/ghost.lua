@@ -47,24 +47,23 @@ function Ghost:beginContact(other, coll)
     if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
         self.physicsEntity.onGround = true
         self.physicsEntity.leftGroundTime = 0
+        self.physicsEntity.groundContacts = self.physicsEntity.groundContacts + 1
     end
 end
 
 function Ghost:endContact(other, coll)
-    local userdata = other:getUserData()
-    if userdata then
-        if userdata.type == "Platform" then
-            self.physicsEntity.onGround = false
-            self.physicsEntity.onGround = false
-            self.physicsEntity.leftGroundTime = love.timer.getTime()
+    local otherUserData = other:getUserData()
+    if otherUserData then
+        if otherUserData.type == "Ghost" and self.collidableGhosts[otherUserData.id] == nil then
+            self.collidableGhosts[otherUserData.id] = true
         end
-        if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
-            self.collidableGhosts[userdata.id] = true
-            self.physicsEntity.onGround = false
-            self.physicsEntity.leftGroundTime = love.timer.getTime()
-        end
-        if userdata.type == "Player" then
+        if otherUserData.type == "Player" then
             self.canCollideWithPlayer = true
+        end
+    end
+    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
+        self.physicsEntity.groundContacts = math.max(0, self.physicsEntity.groundContacts - 1)
+        if self.physicsEntity.groundContacts == 0 then
             self.physicsEntity.onGround = false
             self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
