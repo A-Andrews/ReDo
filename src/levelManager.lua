@@ -3,6 +3,7 @@ local finishFactory = require("src.finish")
 local Sensor = require("src.sensor")
 local MovingPlatform = require("src.movingPlatform")
 local MovingPlatformManager = require("src.movingPlatformManager")
+local Spikes = require("src.spikes")
 
 local levelManager = {}
 
@@ -66,6 +67,9 @@ function levelManager:loadLevel(levelNumber)
                 local movingPlatform = MovingPlatform:new(self.tileSize, tileX, tileY)
                 levelManager.tiles[tileY][tileX] = movingPlatform
                 MovingPlatformManager:addMovingPlatform(movingPlatform) -- Add to moving platform manager
+            elseif char == "^" then
+                local spikes = Spikes:new(self.tileSize, tileX, tileY)
+                levelManager.tiles[tileY][tileX] = spikes
             else
                 levelManager.tiles[tileY][tileX] = nil                                                                                    -- Need to explicitly mark as false
             end

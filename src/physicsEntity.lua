@@ -8,6 +8,7 @@ function PhysicsEntity:new()
     physicsEntity.startX = PlayerAttributes.startX
     physicsEntity.startY = PlayerAttributes.startY - PlayerAttributes.size / 2
     physicsEntity.speed = PlayerAttributes.speed
+    physicsEntity.dead = false
 
     physicsEntity.jumpHeight = PlayerAttributes.jumpHeight
     physicsEntity.coyoteTime = PlayerAttributes.coyoteTime
@@ -33,6 +34,7 @@ function PhysicsEntity:reset()
     self.hasJumped = false
     self.jumpPressed = false
     self.contacts = {}
+    self.dead = false
 end
 
 return PhysicsEntity
