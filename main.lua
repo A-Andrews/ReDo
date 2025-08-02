@@ -4,6 +4,7 @@ local Player = require("src.player")
 local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
+local LevelManager = require("src.levelManager")
 local Levels = {}
 local LevelNumber = 0
 local Level
@@ -17,9 +18,11 @@ function love.load()
     LevelNumber = 1
     Level = Levels[LevelNumber]()
     Level:load()
+    LevelManager:loadLevel(1)
+
     Countdown:load()
     ScoreManager:load()
-    Platform:load()
+    -- Platform:load()
     Player:load()
     GhostManager:load()
 end
@@ -28,7 +31,7 @@ function love.update(dt)
     WorldManager:update(dt)
     Countdown:update(dt)
     Level:update(dt)
-    Platform:update(dt)
+    -- Platform:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
     -- if ((Player.x - Level.endloc[1]) ^ 2 + (Player.y - Level.endloc[2]) ^ 2) < 1000 then
@@ -52,9 +55,10 @@ function love.draw()
     end
     Countdown:draw()
     ScoreManager:draw()
-    Platform:draw()
+    -- Platform:draw()
     Player:draw()
     GhostManager:draw()
+    LevelManager:drawTiles()
 end
 
 function love.keypressed(key)
