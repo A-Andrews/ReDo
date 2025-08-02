@@ -5,6 +5,7 @@ local Player = require("src.player")
 local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
+local MovingPlatformManager = require("src.movingPlatformManager")
 
 local LevelNumber = 1 -- level number (starts at 1 and increments)
 
@@ -15,6 +16,7 @@ function love.load()
     ScoreManager:load()
     Player:load()
     GhostManager:load()
+    MovingPlatformManager:load()
 end
 
 function love.update(dt)
@@ -22,6 +24,7 @@ function love.update(dt)
     Countdown:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
+    MovingPlatformManager:update(dt)
 
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do
