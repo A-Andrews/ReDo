@@ -4,16 +4,14 @@ local Sensor = require("src.sensor")
 local MovingPlatform = require("src.movingPlatform")
 local MovingPlatformManager = require("src.movingPlatformManager")
 local Spikes = require("src.spikes")
-local Countdown = require("src.countdown")
 
 local levelManager = {}
 
 levelManager.tileSize = 32 -- Each tile is 32 x 32 pixels
 levelManager.tiles = {}    -- 2 dim array (table of tables) for storing tiles
 levelManager.playerStart = nil
-levelManager.finishPoints = {}
 levelManager.levelFileInfo = nil
-
+levelManager.timeLimit = 10 -- Default time limit
 
 function levelManager:loadLevel(levelNumber)
     local fileDataPath = "/levels/level-" .. levelNumber .. ".data.txt"
@@ -39,9 +37,7 @@ function levelManager:loadLevel(levelNumber)
     local dataKeys = {}
     local dataValues = {}
     for i, line in ipairs(dataLines) do
-        print(line)
-        for match in line:gmatch("([^,]+?)") do
-            print(match)
+        for match in line:gmatch("([^,]+)") do
             if i == 1 then
                 table.insert(dataKeys, match)
             else
@@ -49,7 +45,13 @@ function levelManager:loadLevel(levelNumber)
             end
         end;
     end
-    Countdown.duration = dataKeys.time
+    for i, v in ipairs(dataKeys) do
+        print(v)
+        if v == "time" then
+            print(tonumber(dataValues[i]))
+            self.timeLimit = tonumber(dataValues[i])
+        end
+    end
 
     local levelWidth, levelHeight = love.graphics.getDimensions();
     local lines = {}
@@ -69,6 +71,8 @@ function levelManager:loadLevel(levelNumber)
             error("Text file for level " .. levelNumber .. " has incorrect width on line " .. i)
         end;
     end
+
+    self.finishPoints = {}
 
     -- Parse lines and populate tiles table
     for tileY, line in ipairs(lines) do

@@ -1,8 +1,9 @@
+local LevelManager = require("src.levelManager")
 local Countdown = {}
 
 function Countdown:load()
-    self.time = 10
-    self.duration = 10
+    self.duration = LevelManager.timeLimit
+    self.time = self.duration
     self.running = true
     self.x = 10
     self.y = 10
