@@ -78,18 +78,15 @@ function Ghost:reset()
 end
 
 function Ghost:update(dt)
-    if self.currentActionIndex <= #self.recordedActions then
-        local action = self.recordedActions[self.currentActionIndex]
-        self.timeElapsed = action.t
-
-        if love.timer.getTime() - self.startTime >= self.timeElapsed then
-            MovementController.updateMovement(self, action)
-        end
+    self.timeElapsed = self.timeElapsed + dt
+    while self.currentActionIndex <= #self.recordedActions and
+        self.recordedActions[self.currentActionIndex].t <= self.timeElapsed do
+        MovementController.updateMovement(self, self.recordedActions[self.currentActionIndex])
         self.currentActionIndex = self.currentActionIndex + 1
-    elseif self.timeElapsed >= self.duration then
+    end
+    
+    if self.timeElapsed >= self.duration then
         self:reset()
-    else
-        self.timeElapsed = self.timeElapsed + dt
     end
 end
 
