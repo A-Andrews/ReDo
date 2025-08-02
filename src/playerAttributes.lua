@@ -7,7 +7,9 @@ local playerAttributes = {
     gravity = -500,
     linearDamping = 4,
     size = 32,
-    colour = {r = 0.28, g = 0.63, b = 0.05}
+    colour = { r = 0.28, g = 0.63, b = 0.05 },
+    coyoteTime = 0.1,
+    jumpBuffer = 0.1,
 }
 
 return playerAttributes

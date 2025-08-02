@@ -1,5 +1,5 @@
 local worldAttributes = {
-    gravity = 2240,
+    gravity = 2000,
     meter = 64
 }
 

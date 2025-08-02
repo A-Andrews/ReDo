@@ -13,8 +13,26 @@ function MovementController.updateMovement(entity, input)
         vx = 0
     end
     box:setLinearVelocity(vx, vy)
-    if input.jump and entity.physicsEntity.onGround then
+
+    MovementController.jump(entity, input.jump)
+end
+
+function MovementController.jump(entity, jump)
+    local box = entity.physicsEntity.box
+    local canJump = entity.physicsEntity.onGround or
+        (love.timer.getTime() - entity.physicsEntity.leftGroundTime < entity.physicsEntity.coyoteTime)
+    
+    if jump and not entity.physicsEntity.jumpPressed then
+        entity.physicsEntity.jumpBufferTime = love.timer.getTime()
+        entity.physicsEntity.jumpPressed = true
+        entity.physicsEntity.hasJumped = false
+    elseif not jump then
+        entity.physicsEntity.jumpPressed = false
+    end
+
+    if jump and canJump and not entity.physicsEntity.hasJumped then
         box:applyLinearImpulse(0, entity.physicsEntity.jump_height)
+        entity.physicsEntity.hasJumped = true
     end
 end
 
