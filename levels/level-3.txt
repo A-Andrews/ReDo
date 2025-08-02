@@ -1,24 +1,24 @@
 |                              |
+|             f                |
 |                              |
 |                              |
 |                              |
 |                              |
 |                              |
+|                   ggg        |
 |                              |
 |                              |
 |                              |
 |                              |
+|     gggggg                   |
 |                              |
 |                              |
 |                              |
 |                              |
+|                     ggg      |
 |                              |
 |                              |
-|          x                   |
-|    ggggggggggggggggg^^^^^^^^^|
-|      ggggggggg               |
-|                          f   |
-gggggggggggggggggggggggggggggggg
+|               x              |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

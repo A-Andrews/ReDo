@@ -9,14 +9,18 @@ local MovingPlatformManager = require("src.movingPlatformManager")
 
 local LevelNumber = 1 -- level number (starts at 1 and increments)
 
-function love.load()
-    WorldManager:load()
-    LevelManager:loadLevel(LevelNumber)
+Reset = function()
     Countdown:load()
     ScoreManager:load()
     Player:load()
     GhostManager:load()
     MovingPlatformManager:load()
+end
+
+function love.load()
+    WorldManager:load()
+    LevelManager:loadLevel(LevelNumber)
+    Reset()
 end
 
 function love.update(dt)
@@ -33,14 +37,11 @@ function love.update(dt)
             LevelNumber = LevelNumber + 1
             WorldManager:load()
             LevelManager:loadLevel(LevelNumber)
-            if not LevelManager.levelFileInfo then
+            if not LevelManager.hasLevel then
                 print("Game completed!")
                 love.event.quit(0)
             else
-                Countdown:load()
-                ScoreManager:load()
-                Player:load()
-                GhostManager:load()
+                Reset()
             end
             break
         end

@@ -5,7 +5,7 @@ local playerAttributes = {
     speed = 500,
     jumpHeight = -200,
     linearDamping = 4,
-    size = 32,
+    size = 28,
     colour = { r = 0.28, g = 0.63, b = 0.05 },
     coyoteTime = 0.1,
     jumpBuffer = 0.1,

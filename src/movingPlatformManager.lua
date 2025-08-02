@@ -14,4 +14,8 @@ function MovingPlatformManager:update(dt)
     end
 end
 
+function MovingPlatformManager:reset()
+    self.movingPlatforms = {}
+end
+
 return MovingPlatformManager
