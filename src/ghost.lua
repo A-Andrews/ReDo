@@ -69,6 +69,7 @@ function Ghost:endContact(other, coll)
 end
 
 function Ghost:reset()
+    self.physicsEntity.box:setType("dynamic")
     self.physicsEntity:reset()
     self.currentActionIndex = 1
     self.timeElapsed = 0
@@ -87,6 +88,9 @@ function Ghost:update(dt)
     
     if self.timeElapsed >= self.duration then
         self:reset()
+    elseif self.currentActionIndex > #self.recordedActions then
+        self.physicsEntity.box:setLinearVelocity(0, 0)
+        self.physicsEntity.box:setType("static")
     end
 end
 
