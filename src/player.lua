@@ -4,11 +4,16 @@ local MovementController = require("src.movementController")
 local PhysicsEntity = require("src.physicsEntity")
 local PlayerAttributes = require("src.playerAttributes")
 local Countdown = require("src.countdown")
-
+local LevelManager = require("src.levelManager")
 
 local Player = {}
 
 function Player:load()
+    -- Update starting postiion if set within level file
+    if LevelManager.playerStart then
+        PlayerAttributes.start_x = LevelManager.playerStart.start_x
+        PlayerAttributes.start_y = LevelManager.playerStart.start_y
+    end
 
     self.isRecording = true
     self.recordStartTime = love.timer.getTime()
@@ -19,7 +24,8 @@ function Player:load()
 
     self.physicsEntity = PhysicsEntity:new()
     self.physicsEntity.boxFixture:setUserData(self)
-    WorldManager:registerCollisionCallback(self.physicsEntity.boxFixture, { owner = self, beginContact = self.beginContact, endContact = self.endContact})
+    WorldManager:registerCollisionCallback(self.physicsEntity.boxFixture,
+        { owner = self, beginContact = self.beginContact, endContact = self.endContact })
 end
 
 function Player:beginContact(other, coll)
@@ -57,8 +63,14 @@ end
 function Player:record()
     if self.isRecording then
         local currentTime = love.timer.getTime()
-        table.insert(self.recordedActions, { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space'), t = currentTime - self.recordStartTime })
-    
+        table.insert(self.recordedActions,
+            {
+                left = love.keyboard.isDown('a'),
+                right = love.keyboard.isDown('d'),
+                jump = love.keyboard.isDown('space'),
+                t = currentTime - self.recordStartTime
+            })
+
         if currentTime - self.recordStartTime > self.recordDuration then
             self.isRecording = false
             self:reset()
@@ -67,8 +79,8 @@ function Player:record()
 end
 
 function Player:update(dt)
-
-    MovementController.updateMovement(self, { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
+    MovementController.updateMovement(self,
+        { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
     self:record()
 end
 
