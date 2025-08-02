@@ -1,4 +1,5 @@
 local PlayerAttributes = require("src.playerAttributes")
+local WorldAttributes = require("src.worldAttributes")
 local MovementController = {}
 
 function MovementController.updateMovement(entity, input)
@@ -19,7 +20,16 @@ end
 
 function MovementController.jump(entity, jump)
     local box = entity.physicsEntity.box
-    
+    local _, vy = box:getLinearVelocity()
+
+    if vy < 0 then
+        if jump then
+            box:applyForce(0, WorldAttributes.gravity * 0.1)
+        else
+            box:applyForce(0, WorldAttributes.gravity)
+        end
+    end
+
     -- Checks whether it is possible to jump based on whether the player is on the ground or has coyote time left
     local canJump = entity.physicsEntity.onGround or
         (love.timer.getTime() - entity.physicsEntity.leftGroundTime < entity.physicsEntity.coyoteTime)
