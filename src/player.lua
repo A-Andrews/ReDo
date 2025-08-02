@@ -34,6 +34,8 @@ function Player:beginContact(other, coll)
         if otherUserData.type == "Platform" or otherUserData.type == "MovingPlatform" or otherUserData.type == "Ghost" then
             self.physicsEntity.contacts[other] = true
             self.physicsEntity.leftGroundTime = 0
+        elseif otherUserData.type == "Spikes" then
+            self.physicsEntity.dead = true
         end
     end
 end
@@ -83,6 +85,9 @@ function Player:record()
 end
 
 function Player:update(dt)
+    if self.physicsEntity.dead then
+        self:reset(false)
+    end
     MovementController.updateMovement(self,
         { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
     self:record()
