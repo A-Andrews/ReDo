@@ -18,7 +18,7 @@ function levelManager:loadLevel(levelNumber)
     return
   end
 
-  local levelWidth, levelHieght = love.graphics.getDimensions();
+  local levelWidth, levelHeight = love.graphics.getDimensions();
   local lines = {}
 
   -- Read lines from file in /levels directory. Filename must be of form 'level-<int>.txt'
@@ -28,7 +28,7 @@ function levelManager:loadLevel(levelNumber)
 
   -- Validate shape of level (line count and line lengths)
   local lineCount = #lines
-  if lineCount * self.tileSize ~= levelHieght then
+  if lineCount * self.tileSize ~= levelHeight then
     error("Text file for level " .. levelNumber .. " has incorrect number of rows")
   end;
   for i, line in ipairs(lines) do
@@ -48,13 +48,13 @@ function levelManager:loadLevel(levelNumber)
         levelManager.tiles[tileY][tileX] = tile -- add tile to tiles table
       elseif char == "x" then
         self.playerStart = {
-          start_x = (self.tileSize * (tileX - 1)) + (self.tileSize / 2),
-          start_y = (self.tileSize * (tileY - 1)) + (self.tileSize / 2)
+          startX = (self.tileSize * (tileX - 1)) + (self.tileSize / 2),
+          startY = (self.tileSize * (tileY - 1)) + (self.tileSize / 2)
         }
       elseif char == "f" then
         local tile = finishFactory(self.tileSize, tileX, tileY)
         tile:load()
-        table.insert(levelManager.finishPoints, { finish_x = tile.x, finish_y = tile.y }) -- Add finish coordinates
+        table.insert(levelManager.finishPoints, { finishX = tile.x, finishY = tile.y }) -- Add finish coordinates
         levelManager.tiles[tileY][tileX] = tile                                           -- Add tile to tiles table
       else
         levelManager.tiles[tileY][tileX] = false                                          -- Need to explicitly mark as false

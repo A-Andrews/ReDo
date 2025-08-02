@@ -25,7 +25,7 @@ function love.update(dt)
 
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do
-        if ((Player.physicsEntity.box:getX() - point.finish_x) ^ 2 + (Player.physicsEntity.box:getY() - point.finish_y) ^ 2) < 1000 then
+        if ((Player.physicsEntity.box:getX() - point.finishX) ^ 2 + (Player.physicsEntity.box:getY() - point.finishY) ^ 2) < 1000 then
             print("Level complete!")
             LevelNumber = LevelNumber + 1
             WorldManager:load()

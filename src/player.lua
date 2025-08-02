@@ -11,8 +11,8 @@ local Player = {}
 function Player:load()
     -- Update starting postiion if set within level file
     if LevelManager.playerStart then
-        PlayerAttributes.start_x = LevelManager.playerStart.start_x
-        PlayerAttributes.start_y = LevelManager.playerStart.start_y
+        PlayerAttributes.startX = LevelManager.playerStart.startX
+        PlayerAttributes.startY = LevelManager.playerStart.startY
     end
 
     self.isRecording = true
