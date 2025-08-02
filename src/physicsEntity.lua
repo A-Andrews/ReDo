@@ -11,6 +11,7 @@ function PhysicsEntity:new()
 
     physicsEntity.jump_height = PlayerAttributes.jump_height
     physicsEntity.onGround = false
+    physicsEntity.groundContacts = 0
     physicsEntity.coyoteTime = PlayerAttributes.coyoteTime
     physicsEntity.leftGroundTime = 0
     physicsEntity.jumpBuffer = PlayerAttributes.jumpBuffer

@@ -43,11 +43,10 @@ function Ghost:preSolve(other, coll)
 end
 
 function Ghost:beginContact(other, coll)
-    local userdata = other:getUserData()
-    if userdata then
-        if userdata.type == "Platform" then
-            self.physicsEntity.onGround = true
-        end
+    local otherUserData = other:getUserData()
+    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
+        self.physicsEntity.onGround = true
+        self.physicsEntity.leftGroundTime = 0
     end
 end
 
@@ -56,12 +55,18 @@ function Ghost:endContact(other, coll)
     if userdata then
         if userdata.type == "Platform" then
             self.physicsEntity.onGround = false
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
         if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
             self.collidableGhosts[userdata.id] = true
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
         if userdata.type == "Player" then
             self.canCollideWithPlayer = true
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
     end
 end
