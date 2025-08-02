@@ -29,6 +29,12 @@ end
 function PhysicsEntity:reset()
     self.box:setPosition(self.start_x, self.start_y)
     self.box:setLinearVelocity(0, 0)
+    self.groundContacts = 0
+    self.onGround = false
+    self.leftGroundTime = 0
+    self.jumpBufferTime = 0
+    self.hasJumped = false
+    self.jumpPressed = false
 end
 
 return PhysicsEntity

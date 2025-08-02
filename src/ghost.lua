@@ -54,11 +54,19 @@ end
 function Ghost:endContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData then
+        if otherUserData.type == "Platform" then
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
+        end
         if otherUserData.type == "Ghost" and self.collidableGhosts[otherUserData.id] == nil then
             self.collidableGhosts[otherUserData.id] = true
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
         if otherUserData.type == "Player" then
             self.canCollideWithPlayer = true
+            self.physicsEntity.onGround = false
+            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
     end
     if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
