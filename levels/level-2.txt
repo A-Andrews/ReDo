@@ -14,7 +14,7 @@
 |                              |
 |                              |
 |                         f    |
-|   x                          |
+|   x       s                  |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

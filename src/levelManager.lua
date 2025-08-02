@@ -1,5 +1,6 @@
 local platformFactory = require("src.platform")
 local finishFactory = require("src.finish")
+local Sensor = require("src.sensor")
 
 local levelManager = {}
 
@@ -55,21 +56,23 @@ function levelManager:loadLevel(levelNumber)
         local tile = finishFactory(self.tileSize, tileX, tileY)
         tile:load()
         table.insert(levelManager.finishPoints, { finishX = tile.x, finishY = tile.y }) -- Add finish coordinates
-        levelManager.tiles[tileY][tileX] = tile                                           -- Add tile to tiles table
+                levelManager.tiles[tileY][tileX] =
+                tile                                                                    -- Add tile to tiles table
+      elseif char == "s" then
+                local sensor = Sensor:new(self.tileSize, tileX, tileY)
+                levelManager.tiles[tileY][tileX] = sensor
       else
-        levelManager.tiles[tileY][tileX] = false                                          -- Need to explicitly mark as false
+        levelManager.tiles[tileY][tileX] = nil                                          -- Need to explicitly mark as false
       end
     end
   end
 end
 
 function levelManager:drawTiles()
-  for i, row in ipairs(self.tiles) do
-    for j, tile in ipairs(row) do
+  for i, row in pairs(self.tiles) do
+    for j, tile in pairs(row) do
       if tile then
-        if tile.type == "Platform" or tile.type == "Finish" then
           tile:draw()
-        end
       end
     end
   end
