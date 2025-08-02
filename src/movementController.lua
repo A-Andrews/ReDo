@@ -7,9 +7,10 @@ function MovementController.updateMovement(entity, input)
 
     if input.right and box:getX() < (love.graphics.getWidth() - PlayerAttributes.size / 2) then
         vx = entity.physicsEntity.speed
-    end
-    if input.left and box:getX() > 0 then
+    elseif input.left and box:getX() - PlayerAttributes.size / 2 > 0 then
         vx = -entity.physicsEntity.speed
+    else
+        vx = 0
     end
     box:setLinearVelocity(vx, vy)
     if input.jump and entity.physicsEntity.onGround then
