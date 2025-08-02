@@ -12,12 +12,12 @@
 |                              |
 |                              |
 |                              |
-|                              |
-|                              |
-|          x                   |
-|    ggggggggggggggggg^^^^^^^^^|
-|      ggggggggg               |
-|                          f   |
+|           =                  |
+|                         f    |
+|   x       s                  |
+ggggggggggggggggggg^gggggggggggg
+gggggggggggggggggggggggggggggggg
+gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

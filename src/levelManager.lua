@@ -8,25 +8,56 @@ local Spikes = require("src.spikes")
 local levelManager = {}
 
 levelManager.tileSize = 32 -- Each tile is 32 x 32 pixels
-levelManager.tiles = {} -- 2 dim array (table of tables) for storing tiles
+levelManager.tiles = {}    -- 2 dim array (table of tables) for storing tiles
 levelManager.playerStart = nil
-levelManager.finishPoints = {}
 levelManager.levelFileInfo = nil
-
+levelManager.timeLimit = 10 -- Default time limit
 
 function levelManager:loadLevel(levelNumber)
-    local filepath = "/levels/level-" .. levelNumber .. ".txt"
-    self.levelFileInfo = love.filesystem.getInfo(filepath, "file")
+    local fileDataPath = "/levels/level-" .. levelNumber .. ".data.txt"
+    self.levelDataFileInfo = love.filesystem.getInfo(fileDataPath, "file")
 
-    if not self.levelFileInfo then
+    local fileMapPath = "/levels/level-" .. levelNumber .. ".txt"
+    self.levelMapFileInfo = love.filesystem.getInfo(fileMapPath, "file")
+
+    if self.levelMapFileInfo and self.levelDataFileInfo then
+        self.hasLevel = true
+    else
+        self.hasLevel = false
+    end;
+
+    if not self.levelMapFileInfo or not self.levelDataFileInfo then
         return
+    end
+
+    local dataLines = {}
+    for line in love.filesystem.lines(fileDataPath) do
+        table.insert(dataLines, tostring(line))
+    end
+    local dataKeys = {}
+    local dataValues = {}
+    for i, line in ipairs(dataLines) do
+        for match in line:gmatch("([^,]+)") do
+            if i == 1 then
+                table.insert(dataKeys, match)
+            else
+                table.insert(dataValues, match)
+            end
+        end;
+    end
+    for i, v in ipairs(dataKeys) do
+        print(v)
+        if v == "time" then
+            print(tonumber(dataValues[i]))
+            self.timeLimit = tonumber(dataValues[i])
+        end
     end
 
     local levelWidth, levelHeight = love.graphics.getDimensions();
     local lines = {}
 
     -- Read lines from file in /levels directory. Filename must be of form 'level-<int>.txt'
-    for line in love.filesystem.lines("/levels/level-" .. levelNumber .. ".txt") do
+    for line in love.filesystem.lines(fileMapPath) do
         table.insert(lines, tostring(line))
     end
 
@@ -40,6 +71,8 @@ function levelManager:loadLevel(levelNumber)
             error("Text file for level " .. levelNumber .. " has incorrect width on line " .. i)
         end;
     end
+
+    self.finishPoints = {}
 
     -- Parse lines and populate tiles table
     for tileY, line in ipairs(lines) do
@@ -59,7 +92,8 @@ function levelManager:loadLevel(levelNumber)
                 local tile = finishFactory(self.tileSize, tileX, tileY)
                 tile:load()
                 table.insert(levelManager.finishPoints, { finishX = tile.x, finishY = tile.y }) -- Add finish coordinates
-                levelManager.tiles[tileY][tileX] = tile                                                                                                                                        -- Add tile to tiles table
+                levelManager.tiles[tileY][tileX] =
+                    tile                                                                        -- Add tile to tiles table
             elseif char == "s" then
                 local sensor = Sensor:new(self.tileSize, tileX, tileY)
                 levelManager.tiles[tileY][tileX] = sensor
@@ -71,7 +105,7 @@ function levelManager:loadLevel(levelNumber)
                 local spikes = Spikes:new(self.tileSize, tileX, tileY)
                 levelManager.tiles[tileY][tileX] = spikes
             else
-                levelManager.tiles[tileY][tileX] = nil                                                                                    -- Need to explicitly mark as false
+                levelManager.tiles[tileY][tileX] = nil -- Need to explicitly mark as false
             end
         end
     end
@@ -81,7 +115,7 @@ function levelManager:drawTiles()
     for i, row in pairs(self.tiles) do
         for j, tile in pairs(row) do
             if tile then
-                    tile:draw()
+                tile:draw()
             end
         end
     end

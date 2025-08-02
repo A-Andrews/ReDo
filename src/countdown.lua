@@ -1,13 +1,14 @@
+local LevelManager = require("src.levelManager")
 local Countdown = {}
 
 function Countdown:load()
-    self.time = 10
-    self.duration = 10
+    self.duration = LevelManager.timeLimit
+    self.time = self.duration
     self.running = true
     self.x = 10
     self.y = 10
     self.scale = 2
-    self.colour = {r = 1, g = 0, b = 0}
+    self.colour = { r = 1, g = 0, b = 0 }
 end
 
 function Countdown:keypressed(key)
@@ -28,7 +29,7 @@ end
 function Countdown:draw()
     if self.running then
         love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
-        love.graphics.print("".. math.ceil(self.time), self.x, self.y, nil, self.scale, self.scale)
+        love.graphics.print("" .. math.ceil(self.time), self.x, self.y, nil, self.scale, self.scale)
     end
 end
 
