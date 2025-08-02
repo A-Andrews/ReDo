@@ -16,7 +16,9 @@ function Ghost:new(recordedActions)
     ghost.timeElapsed = 0
     ghost.duration = Countdown.duration
     ghost.type = "Ghost"
-    ghost.colour = PlayerAttributes.colour
+    self.spriteLeft = love.graphics.newImage("images/player_left.png")
+    self.spriteRight = love.graphics.newImage("images/player_right.png")
+    self.sprite = self.spriteLeft
 
     ghost.physicsEntity = PhysicsEntity:new()
     ghost.physicsEntity.boxFixture:setUserData(ghost)
@@ -85,7 +87,7 @@ function Ghost:update(dt)
         MovementController.updateMovement(self, self.recordedActions[self.currentActionIndex])
         self.currentActionIndex = self.currentActionIndex + 1
     end
-    
+
     if self.timeElapsed >= self.duration then
         self:reset()
     elseif self.currentActionIndex > #self.recordedActions then
@@ -95,9 +97,17 @@ function Ghost:update(dt)
 end
 
 function Ghost:draw()
-    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b, self.alpha)
-    love.graphics.polygon("fill", self.physicsEntity.box:getWorldPoints(self.physicsEntity.boxShape:getPoints()))
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(1, 1, 1, 0.5)
+    local x, y = self.physicsEntity.box:getPosition()
+    local angle = self.physicsEntity.box:getAngle()
+
+    if love.keyboard.isDown('a') then
+        self.sprite = self.spriteLeft
+    elseif love.keyboard.isDown('d') then
+        self.sprite = self.spriteRight
+    end
+
+    love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
 end
 
 return Ghost
