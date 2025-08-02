@@ -2,6 +2,7 @@ local WorldManager = require("src.worldManager")
 local MovementController = require("src.movementController")
 local PhysicsEntity = require("src.physicsEntity")
 local PlayerAttributes = require("src.playerAttributes")
+local Countdown = require("src.countdown")
 local Ghost = {}
 Ghost.__index = Ghost
 
@@ -13,6 +14,7 @@ function Ghost:new(recordedActions)
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
+    ghost.duration = Countdown.duration
     ghost.type = "Ghost"
     ghost.colour = PlayerAttributes.colour
 
@@ -82,8 +84,10 @@ function Ghost:update(dt)
             MovementController.updateMovement(self, action)
         end
         self.currentActionIndex = self.currentActionIndex + 1
-    else
+    elseif self.timeElapsed >= self.duration then
         self:reset()
+    else
+        self.timeElapsed = self.timeElapsed + dt
     end
 end
 
