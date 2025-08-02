@@ -20,7 +20,9 @@ function Player:load()
     self.recordDuration = Countdown.duration
     self.recordedActions = {}
     self.type = "Player"
-    self.colour = PlayerAttributes.colour
+    self.spriteLeft = love.graphics.newImage("images/player_left.png")
+    self.spriteRight = love.graphics.newImage("images/player_right.png")
+    self.sprite = self.spriteLeft
 
     self.physicsEntity = PhysicsEntity:new()
     self.physicsEntity.boxFixture:setUserData(self)
@@ -94,9 +96,17 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
-    love.graphics.polygon("fill", self.physicsEntity.box:getWorldPoints(self.physicsEntity.boxShape:getPoints()))
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(1, 1, 1, 1)
+    local x, y = self.physicsEntity.box:getPosition()
+    local angle = self.physicsEntity.box:getAngle()
+
+    if love.keyboard.isDown('a') then
+        self.sprite = self.spriteLeft
+    elseif love.keyboard.isDown('d') then
+        self.sprite = self.spriteRight
+    end
+
+    love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
 end
 
 return Player

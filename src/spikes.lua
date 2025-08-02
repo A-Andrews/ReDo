@@ -15,7 +15,6 @@ function Spikes:new(tileSize, tileX, tileY)
     spikes.fixture:setSensor(true)
     spikes.fixture:setUserData(spikes)
     spikes.type = "Spikes"
-    spikes.colour = { r = 1, g = 1, b = 0, a = 0.5 }
     WorldManager:registerCollisionCallback(spikes.fixture,
         { owner = spikes, beginContact = spikes.beginContact, endContact = spikes.endContact })
     return spikes

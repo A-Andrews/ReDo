@@ -7,12 +7,15 @@ function MovingPlatform:new(tileSize, tileX, tileY)
 
     movingPlatform.startX = (tileSize * (tileX - 1)) + (tileSize / 2)
     movingPlatform.startY = (tileSize * (tileY - 1)) + (tileSize / 2)
+
+    movingPlatform.sprite = love.graphics.newImage("images/moving_platform.png")
+
     movingPlatform.speed = 500
     movingPlatform.distance = tileSize * 2
     movingPlatform.elapsedTime = 0
     movingPlatform.body = love.physics.newBody(WorldManager:getWorld(), movingPlatform.startX, movingPlatform.startY,
         "kinematic")
-    movingPlatform.shape = love.physics.newRectangleShape(tileSize, tileSize)
+    movingPlatform.shape = love.physics.newRectangleShape(tileSize, tileSize / 2)
     movingPlatform.fixture = love.physics.newFixture(movingPlatform.body, movingPlatform.shape)
     movingPlatform.fixture:setUserData(movingPlatform)
     movingPlatform.type = "MovingPlatform"
@@ -35,9 +38,11 @@ function MovingPlatform:update(dt)
 end
 
 function MovingPlatform:draw()
-    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b, self.colour.a)
-    love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
     love.graphics.setColor(1, 1, 1, 1)
+    local x, y = self.body:getPosition()
+    local angle = self.body:getAngle()
+
+    love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
 end
 
 return MovingPlatform
