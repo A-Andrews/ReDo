@@ -5,11 +5,11 @@
 |                              |
 |                              |
 |                              |
+|      gggg         gggg       |
 |                              |
 |                              |
 |                              |
-|                              |
-|                              |
+|                           x  |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
