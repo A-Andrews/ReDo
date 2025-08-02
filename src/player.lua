@@ -31,7 +31,7 @@ end
 function Player:beginContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData then
-        if otherUserData.type == "Platform" or otherUserData.type == "Ghost" then
+        if otherUserData.type == "Platform" or otherUserData.type == "MovingPlatform" or otherUserData.type == "Ghost" then
             self.physicsEntity.contacts[other] = true
             self.physicsEntity.leftGroundTime = 0
         end
