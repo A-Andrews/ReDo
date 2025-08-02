@@ -10,14 +10,13 @@ function PhysicsEntity:new()
     physicsEntity.speed = PlayerAttributes.speed
 
     physicsEntity.jump_height = PlayerAttributes.jump_height
-    physicsEntity.onGround = false
-    physicsEntity.groundContacts = 0
     physicsEntity.coyoteTime = PlayerAttributes.coyoteTime
     physicsEntity.leftGroundTime = 0
     physicsEntity.jumpBuffer = PlayerAttributes.jumpBuffer
     physicsEntity.jumpBufferTime = 0
     physicsEntity.hasJumped = false
     physicsEntity.jumpPressed = false
+    physicsEntity.contacts = {}
 
     physicsEntity.box = love.physics.newBody(WorldManager:getWorld(), physicsEntity.start_x, physicsEntity.start_y, "dynamic")
     physicsEntity.boxShape = love.physics.newRectangleShape(PlayerAttributes.size, PlayerAttributes.size)
@@ -29,12 +28,11 @@ end
 function PhysicsEntity:reset()
     self.box:setPosition(self.start_x, self.start_y)
     self.box:setLinearVelocity(0, 0)
-    self.groundContacts = 0
-    self.onGround = false
     self.leftGroundTime = 0
     self.jumpBufferTime = 0
     self.hasJumped = false
     self.jumpPressed = false
+    self.contacts = {}
 end
 
 return PhysicsEntity

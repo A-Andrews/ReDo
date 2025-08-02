@@ -44,35 +44,25 @@ end
 
 function Ghost:beginContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
-        self.physicsEntity.onGround = true
-        self.physicsEntity.leftGroundTime = 0
-        self.physicsEntity.groundContacts = self.physicsEntity.groundContacts + 1
+    if otherUserData then
+        if otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player" then
+            self.physicsEntity.contacts[other] = true
+            self.physicsEntity.leftGroundTime = 0
+        end
     end
 end
 
 function Ghost:endContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData then
-        if otherUserData.type == "Platform" then
-            self.physicsEntity.onGround = false
-            self.physicsEntity.leftGroundTime = love.timer.getTime()
-        end
         if otherUserData.type == "Ghost" and self.collidableGhosts[otherUserData.id] == nil then
             self.collidableGhosts[otherUserData.id] = true
-            self.physicsEntity.onGround = false
-            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
         if otherUserData.type == "Player" then
             self.canCollideWithPlayer = true
-            self.physicsEntity.onGround = false
-            self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
-    end
-    if otherUserData and (otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player") then
-        self.physicsEntity.groundContacts = math.max(0, self.physicsEntity.groundContacts - 1)
-        if self.physicsEntity.groundContacts == 0 then
-            self.physicsEntity.onGround = false
+        if self.physicsEntity.contacts[other] == true then
+            self.physicsEntity.contacts[other] = nil
             self.physicsEntity.leftGroundTime = love.timer.getTime()
         end
     end
