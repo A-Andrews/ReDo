@@ -4,11 +4,11 @@
 |                              |
 |  f                           |
 |                              |
-|                              |
-|      gggg         gggg       |
-|                              |
-|                              |
-|                              |
+|gg             gggggg         |
+| ggg                          |
+|   ggg                        |
+|     ggg                      |
+|       ggg                    |
 |                           x  |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
