@@ -6,18 +6,11 @@ local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
 
-local Levels = {}
-local LevelNumber = 0
-local Level
+local LevelNumber = 1 -- level number (starts at 1 and increments)
 
 function love.load()
     WorldManager:load()
-    for i = 1, 2 do
-        local level = love.filesystem.load('levels/level-' .. i .. '.lua')
-        table.insert(Levels, level)
-    end
-    LevelNumber = 1
-    LevelManager:loadLevel(1)
+    LevelManager:loadLevel(LevelNumber)
     Countdown:load()
     ScoreManager:load()
     Player:load()
@@ -27,28 +20,31 @@ end
 function love.update(dt)
     WorldManager:update(dt)
     Countdown:update(dt)
-    Level:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
-    -- if ((Player.x - Level.endloc[1]) ^ 2 + (Player.y - Level.endloc[2]) ^ 2) < 1000 then
-    --     print("Level complete!")
-    --     LevelNumber = LevelNumber + 1
-    --     Level = Levels[LevelNumber]
-    --     if not Level then
-    --         print("Game completed!")
-    --         love.event.quit(0)
-    --     else
-    --         Level = Level()
-    --         Level:load()
-    --         Player:load()
-    --     end
-    -- end
+
+    -- Placeholder logic for moving between levels
+    for i, point in ipairs(LevelManager.finishPoints) do
+        if ((Player.physicsEntity.box:getX() - point.finish_x) ^ 2 + (Player.physicsEntity.box:getY() - point.finish_y) ^ 2) < 1000 then
+            print("Level complete!")
+            LevelNumber = LevelNumber + 1
+            WorldManager:load()
+            LevelManager:loadLevel(LevelNumber)
+            if not LevelManager.levelFileInfo then
+                print("Game completed!")
+                love.event.quit(0)
+            else
+                Countdown:load()
+                ScoreManager:load()
+                Player:load()
+                GhostManager:load()
+            end
+            break
+        end
+    end
 end
 
 function love.draw()
-    if Level then
-        Level:draw()
-    end
     Countdown:draw()
     ScoreManager:draw()
     LevelManager:drawTiles()

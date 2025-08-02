@@ -2,19 +2,19 @@
 |                              |
 |                              |
 |                              |
-|  f                           |
-|                              |
-|                              |
-|      gggg         gggg       |
 |                              |
 |                              |
 |                              |
-|                           x  |
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                         f    |
+|   x                          |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
