@@ -6,10 +6,13 @@ function GhostManager:load()
 end
 
 function GhostManager:keypressed(key)
-    if key == "r" then
+    if key == "r" or key == "c" then
         for i, ghost in ipairs(self.ghosts) do
             ghost:reset()
         end
+    end
+    if key == "f" then
+        self:reset()
     end
 end
 
