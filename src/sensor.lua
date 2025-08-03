@@ -33,7 +33,7 @@ end
 
 function Sensor:endContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (otherUserData.type == "Player" or otherUserData.type == "Ghost") then
+    if otherUserData and (otherUserData.type == "Player" or (otherUserData.type == "Ghost" and otherUserData.physicsEntity.box:getType() == "dynamic")) then
         self.activated = false
         self.sprite = self.spriteDeactivated
     end
