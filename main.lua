@@ -58,6 +58,7 @@ end
 
 function love.keypressed(key)
     if key == "escape" then
+        -- quit the game
         love.event.quit()
     end
     Player:keypressed(key)
