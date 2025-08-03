@@ -4,8 +4,9 @@ function ScoreManager:load()
     self.score = 0
     self.x = love.graphics.getWidth() - 130
     self.y = 10
-    self.scale = 2
+    self.scale = 1
     self.colour = { r = 1, g = 1, b = 1 }
+    self.font = love.graphics.newFont(20)
 end
 
 function ScoreManager:addScore(points)
@@ -23,7 +24,7 @@ end
 
 function ScoreManager:draw()
     love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
-    love.graphics.print("Score: " .. self.score, self.x, self.y, nil, self.scale, self.scale)
+    love.graphics.print("Score: " .. self.score, self.font, self.x, self.y, nil, self.scale, self.scale)
 end
 
 return ScoreManager

@@ -7,8 +7,9 @@ function Countdown:load()
     self.running = true
     self.x = 10
     self.y = 10
-    self.scale = 2
+    self.scale = 1
     self.colour = { r = 1, g = 0, b = 0 }
+    self.font = love.graphics.newFont(20)
 end
 
 function Countdown:keypressed(key)
@@ -29,7 +30,7 @@ end
 function Countdown:draw()
     if self.running then
         love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
-        love.graphics.print("" .. math.ceil(self.time), self.x, self.y, nil, self.scale, self.scale)
+        love.graphics.print("" .. math.ceil(self.time), self.font, self.x, self.y, nil, self.scale, self.scale)
     end
 end
 
