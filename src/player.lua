@@ -92,6 +92,7 @@ end
 function Player:update(dt)
     if self.physicsEntity.dead then
         self:reset(false)
+        GhostManager:resetGhosts()
     end
     MovementController.updateMovement(self,
         { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
