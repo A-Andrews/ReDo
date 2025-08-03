@@ -29,6 +29,8 @@ function Ghost:new(recordedActions)
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
 
+    ghost.physicsEntity.dead = false
+
     return ghost
 end
 
@@ -50,6 +52,8 @@ function Ghost:beginContact(other, coll)
         if otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player" then
             self.physicsEntity.contacts[other] = true
             self.physicsEntity.leftGroundTime = 0
+        elseif otherUserData.type == "Spikes" then
+            self.physicsEntity.dead = true
         end
     end
 end
@@ -78,9 +82,14 @@ function Ghost:reset()
     self.startTime = love.timer.getTime()
     self.collidableGhosts = {}
     self.canCollideWithPlayer = false
+    self.physicsEntity.box:setActive(true)
+    self.dead = false
 end
 
 function Ghost:update(dt)
+    if self.physicsEntity.dead then
+        self.physicsEntity.box:setActive(false)
+    end
     self.timeElapsed = self.timeElapsed + dt
     while self.currentActionIndex <= #self.recordedActions and
         self.recordedActions[self.currentActionIndex].t <= self.timeElapsed do
@@ -97,6 +106,9 @@ function Ghost:update(dt)
 end
 
 function Ghost:draw()
+    if self.physicsEntity.dead then
+        return
+    end
     love.graphics.setColor(1, 1, 1, 0.5)
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
@@ -109,6 +121,10 @@ function Ghost:draw()
     end
 
     love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
+end
+
+function Ghost:destroy()
+    self.physicsEntity.box:destroy()
 end
 
 return Ghost
