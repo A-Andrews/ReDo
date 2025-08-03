@@ -13,7 +13,6 @@ function Ghost:new(recordedActions)
     ghost.alpha = 0.7
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
-    ghost.timeElapsed = 0
     ghost.duration = Countdown.duration
     ghost.type = "Ghost"
     self.spriteLeft = love.graphics.newImage("images/player_left.png")
@@ -26,6 +25,7 @@ function Ghost:new(recordedActions)
     self.colour = { r = 173 / 255, g = 216 / 255, b = 230 / 255 }
 
     ghost.physicsEntity = PhysicsEntity:new()
+    ghost.physicsEntity.box:setType("kinematic")
     ghost.physicsEntity.boxFixture:setUserData(ghost)
     ghost.canCollideWithPlayer = false
     WorldManager:registerCollisionCallback(ghost.physicsEntity.boxFixture,
@@ -84,10 +84,9 @@ function Ghost:endContact(other, coll)
 end
 
 function Ghost:reset()
-    self.physicsEntity.box:setType("dynamic")
+    self.physicsEntity.box:setType("kinematic")
     self.physicsEntity:reset()
     self.currentActionIndex = 1
-    self.timeElapsed = 0
     self.startTime = love.timer.getTime()
     self.collidableGhosts = {}
     self.canCollideWithPlayer = false
@@ -99,14 +98,17 @@ function Ghost:update(dt)
     if self.physicsEntity.dead then
         self.physicsEntity.box:setActive(false)
     end
-    self.timeElapsed = self.timeElapsed + dt
+    local elapsed = love.timer.getTime() - self.startTime
     while self.currentActionIndex <= #self.recordedActions and
-        self.recordedActions[self.currentActionIndex].t <= self.timeElapsed do
-        MovementController.updateMovement(self, self.recordedActions[self.currentActionIndex])
+        self.recordedActions[self.currentActionIndex].t <= elapsed do
+        local action = self.recordedActions[self.currentActionIndex]
+
+        self.physicsEntity.box:setPosition(action.x, action.y)
+        self.physicsEntity.box:setAngle(action.angle)
         self.currentActionIndex = self.currentActionIndex + 1
     end
 
-    if self.timeElapsed >= self.duration then
+    if elapsed >= self.duration then
         self:reset()
     elseif self.currentActionIndex > #self.recordedActions then
         self.physicsEntity.box:setLinearVelocity(0, 0)

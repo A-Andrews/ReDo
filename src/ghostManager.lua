@@ -39,6 +39,10 @@ function GhostManager:resetGhosts()
     end
 end
 
+function GhostManager:getGhosts()
+    return self.ghosts
+end
+
 function GhostManager:reset()
     for _, ghost in ipairs(self.ghosts) do
         ghost:destroy()

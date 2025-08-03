@@ -35,4 +35,10 @@ function sensorManager:keypressed(key)
     end
 end
 
+function sensorManager:update(dt, ghosts)
+    for _, sensor in ipairs(self.sensors) do
+        sensor:update(dt, ghosts)
+    end
+end
+
 return sensorManager
