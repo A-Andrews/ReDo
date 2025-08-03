@@ -19,10 +19,8 @@ function sensorManager:allActive()
     return result
 end
 
-function sensorManager:update(dt, bodies)
-    for i, sensor in ipairs(self.sensors) do
-        sensor:update(dt, bodies)
-    end
+function sensorManager:reset()
+    self.sensors = {}
 end
 
 return sensorManager

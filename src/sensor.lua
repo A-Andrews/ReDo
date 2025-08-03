@@ -26,7 +26,6 @@ end
 function Sensor:beginContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData and (otherUserData.type == "Player" or otherUserData.type == "Ghost") then
-        print("begin contact")
         self.activated = true
         self.sprite = self.spriteActivated
     end

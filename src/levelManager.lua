@@ -17,12 +17,6 @@ levelManager.timeLimit = 10 -- Default time limit
 
 levelManager.doors = {}
 
--- Sensor management
--- levelManager.sensors = {}
--- levelManager.sensorState = function()
---     if Sensor.
--- end
-
 function levelManager:loadLevel(levelNumber)
     local fileDataPath = "/levels/level-" .. levelNumber .. ".data.txt"
     self.levelDataFileInfo = love.filesystem.getInfo(fileDataPath, "file")
@@ -81,7 +75,8 @@ function levelManager:loadLevel(levelNumber)
     end
 
     self.finishPoints = {}
-    SensorManager.sensors = {} -- reset sensors array
+    SensorManager:reset()         -- Reset sensors
+    MovingPlatformManager:reset() -- Reset moving platforms
 
     -- Parse lines and populate tiles table
     for tileY, line in ipairs(lines) do

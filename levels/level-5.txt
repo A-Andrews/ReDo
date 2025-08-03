@@ -4,20 +4,20 @@
 |                              |
 |                              |
 |                              |
+|                         s    |
+|  s                           |
+|      ===                     |
 |                              |
+|           s        ggggggggggg
 |                              |
-|                              |
-|       s                      |
-|                              |
-|                              |
-|ggggg                   s     |
-|                              |
-|           ====               |
-|                         f    |
-|   x       s                  |
-ggggggggggggggggggg^^^^^^^^^^^^^
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
+gggggg          ===            |
+|                      ddddddddd
+|          ====        d       |
+|                      d   f   |
+|                      d       |
+ggg       ggggggggggg^^d^^^^^^^^
+ggggg        ggggggggggggggggggg
+gggggggg   x  gggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

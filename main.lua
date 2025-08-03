@@ -15,7 +15,6 @@ Reset = function()
     ScoreManager:load()
     Player:load()
     GhostManager:load()
-    MovingPlatformManager:load()
 end
 
 function love.load()
@@ -30,13 +29,7 @@ function love.update(dt)
     Countdown:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
-    MovingPlatformManager:update(dt)
-    local bodies = {}
-    bodies[1] = Player.physicsEntity.box
-    for i, ghost in ipairs(GhostManager.ghosts) do
-        table.insert(bodies, ghost.physicsEntity.box)
-    end
-    SensorManager:update(dt, bodies)
+    MovingPlatformManager:update(dt, Countdown.time)
 
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do
