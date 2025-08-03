@@ -18,6 +18,9 @@ function Ghost:new(recordedActions)
     ghost.type = "Ghost"
     self.spriteLeft = love.graphics.newImage("images/player_left.png")
     self.spriteRight = love.graphics.newImage("images/player_right.png")
+    self.spriteSpin = love.graphics.newImage("images/player_spin.png")
+    self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
+    self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
     self.sprite = self.spriteLeft
 
     ghost.physicsEntity = PhysicsEntity:new()
@@ -124,12 +127,22 @@ function Ghost:draw()
 
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
-    local vx, _ = self.physicsEntity.box:getLinearVelocity()
+    local vx, vy = self.physicsEntity.box:getLinearVelocity()
 
     if vx <= 0 then
         self.sprite = self.spriteLeft
+        if vy < 0 then
+            self.sprite = self.spriteJumpLeft
+        end
     else
         self.sprite = self.spriteRight
+        if vy < 0 then
+            self.sprite = self.spriteJumpRight
+        end
+    end
+
+    if math.abs(self.physicsEntity.box:getAngularVelocity()) > 4 then
+        self.sprite = self.spriteSpin
     end
 
     love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
