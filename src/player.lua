@@ -38,6 +38,7 @@ function Player:beginContact(other, coll)
             self.physicsEntity.leftGroundTime = 0
         elseif otherUserData.type == "Spikes" then
             self.physicsEntity.dead = true
+            Countdown:reset()
         end
     end
 end
