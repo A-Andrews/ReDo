@@ -1,6 +1,7 @@
 local WorldManager = require("src.worldManager")
 local MovingPlatform = {}
 MovingPlatform.__index = MovingPlatform
+local sprite = love.graphics.newImage("images/moving_platform.png")
 
 function MovingPlatform:new(tileSize, tileX, tileY)
     local movingPlatform = setmetatable({}, MovingPlatform)
@@ -8,7 +9,7 @@ function MovingPlatform:new(tileSize, tileX, tileY)
     movingPlatform.startX = (tileSize * (tileX - 1)) + (tileSize / 2)
     movingPlatform.startY = (tileSize * (tileY - 1)) + (tileSize / 2)
 
-    movingPlatform.sprite = love.graphics.newImage("images/moving_platform.png")
+    movingPlatform.sprite = sprite
 
     movingPlatform.speed = 500
     movingPlatform.distance = tileSize * 2

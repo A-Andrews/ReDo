@@ -4,6 +4,9 @@ local SensorManager = require("src.sensorManager")
 local Door = {}
 Door.__index = Door
 
+local spriteClosed = love.graphics.newImage("images/door_closed.png")
+local spriteOpen = love.graphics.newImage("images/door_open.png")
+
 
 function Door:new(tileSize, tileX, tileY)
     local door = setmetatable({}, Door)
@@ -11,8 +14,8 @@ function Door:new(tileSize, tileX, tileY)
     door.y = (tileSize * (tileY - 1)) + (tileSize / 2)
     door.isOpen = false -- Door always starts closed
 
-    door.spriteClosed = love.graphics.newImage("images/door_closed.png")
-    door.spriteOpen = love.graphics.newImage("images/door_open.png")
+    door.spriteClosed = spriteClosed
+    door.spriteOpen = spriteOpen
     door.sprite = door.spriteClosed
 
     door.body = love.physics.newBody(WorldManager:getWorld(), door.x, door.y, "static")

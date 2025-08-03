@@ -1,13 +1,14 @@
 local WorldManager = require("src.worldManager")
 local Spikes = {}
 Spikes.__index = Spikes
+local sprite = love.graphics.newImage("images/spikes.png")
 
 function Spikes:new(tileSize, tileX, tileY)
     local spikes = setmetatable({}, Spikes)
     spikes.x = (tileSize * (tileX - 1)) + (tileSize / 2)
     spikes.y = (tileSize * (tileY - 1)) + (tileSize / 2)
 
-    spikes.sprite = love.graphics.newImage("images/spikes.png")
+    spikes.sprite = sprite
 
     spikes.body = love.physics.newBody(WorldManager:getWorld(), spikes.x, spikes.y, "static")
     spikes.shape = love.physics.newRectangleShape(tileSize, tileSize - 10)

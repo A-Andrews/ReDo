@@ -1,5 +1,6 @@
 local WorldManager = require("src.worldManager")
 local CollisionCategories = require("src.collisionCategories")
+local sprite = love.graphics.newImage("images/platform.png")
 
 local platformFactory = function(tileSize, tileX, tileY)
     local platform = {}
@@ -8,7 +9,7 @@ local platformFactory = function(tileSize, tileX, tileY)
         self.x = (tileSize * (tileX - 1)) + (tileSize / 2)
         self.y = (tileSize * (tileY - 1)) + (tileSize / 2)
 
-        self.sprite = love.graphics.newImage("images/platform.png")
+        self.sprite = sprite
         self.body = love.physics.newBody(WorldManager:getWorld(), self.x, self.y, "static")
         self.shape = love.physics.newRectangleShape(tileSize, tileSize)
         self.fixture = love.physics.newFixture(self.body, self.shape)

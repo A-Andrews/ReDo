@@ -7,6 +7,7 @@ local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
 local MovingPlatformManager = require("src.movingPlatformManager")
 local SensorManager = require("src.sensorManager")
+local background = love.graphics.newImage("images/background.png")
 
 local LevelNumber = 1 -- level number (starts at 1 and increments)
 
@@ -52,7 +53,6 @@ function love.update(dt)
 end
 
 function love.draw()
-    local background = love.graphics.newImage("images/background.png")
     love.graphics.setColor(1, 1, 1, 1) -- ensure full color and opacity
     love.graphics.draw(background, 0, 0)
     Countdown:draw()

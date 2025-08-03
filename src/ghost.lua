@@ -6,6 +6,12 @@ local Countdown = require("src.countdown")
 local Ghost = {}
 Ghost.__index = Ghost
 
+local spriteLeft = love.graphics.newImage("images/player_left.png")
+local spriteRight = love.graphics.newImage("images/player_right.png")
+local spriteSpin = love.graphics.newImage("images/player_spin.png")
+local spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
+local spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
+
 function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
 
@@ -15,11 +21,13 @@ function Ghost:new(recordedActions)
     ghost.currentActionIndex = 1
     ghost.duration = Countdown.duration
     ghost.type = "Ghost"
-    self.spriteLeft = love.graphics.newImage("images/player_left.png")
-    self.spriteRight = love.graphics.newImage("images/player_right.png")
-    self.spriteSpin = love.graphics.newImage("images/player_spin.png")
-    self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
-    self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
+
+    self.spriteLeft = spriteLeft
+    self.spriteRight = spriteRight
+    self.spriteSpin = spriteSpin
+    self.spriteJumpLeft = spriteJumpLeft
+    self.spriteJumpRight = spriteJumpRight
+
     self.sprite = self.spriteLeft
     self.fadeInValue = 0.4
     self.colour = { r = 173 / 255, g = 216 / 255, b = 230 / 255 }

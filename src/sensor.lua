@@ -2,13 +2,17 @@ local WorldManager = require("src.worldManager")
 local Sensor = {}
 Sensor.__index = Sensor
 
+local spriteActivated = love.graphics.newImage("images/sensor_activated.png")
+local spriteDeactivated = love.graphics.newImage("images/sensor_deactivated.png")
+
 function Sensor:new(tileSize, tileX, tileY)
     local sensor = setmetatable({}, Sensor)
     sensor.x = (tileSize * (tileX - 1)) + (tileSize / 2)
     sensor.y = (tileSize * (tileY - 1)) + (tileSize / 2)
 
-    sensor.spriteActivated = love.graphics.newImage("images/sensor_activated.png")
-    sensor.spriteDeactivated = love.graphics.newImage("images/sensor_deactivated.png")
+    sensor.spriteActivated = spriteActivated
+    sensor.spriteDeactivated = spriteDeactivated
+
     sensor.activated = false
     sensor.sprite = sensor.spriteDeactivated
 

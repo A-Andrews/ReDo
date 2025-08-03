@@ -7,6 +7,12 @@ local Countdown = require("src.countdown")
 local LevelManager = require("src.levelManager")
 local SensorManager = require("src.sensorManager")
 
+local spriteLeft = love.graphics.newImage("images/player_left.png")
+local spriteRight = love.graphics.newImage("images/player_right.png")
+local spriteSpin = love.graphics.newImage("images/player_spin.png")
+local spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
+local spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
+
 local Player = {}
 
 function Player:load()
@@ -21,11 +27,13 @@ function Player:load()
     self.recordDuration = Countdown.duration
     self.recordedActions = {}
     self.type = "Player"
-    self.spriteLeft = love.graphics.newImage("images/player_left.png")
-    self.spriteRight = love.graphics.newImage("images/player_right.png")
-    self.spriteSpin = love.graphics.newImage("images/player_spin.png")
-    self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
-    self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
+
+    self.spriteLeft = spriteLeft
+    self.spriteRight = spriteRight
+    self.spriteSpin = spriteSpin
+    self.spriteJumpLeft = spriteJumpLeft
+    self.spriteJumpRight = spriteJumpRight
+
     self.sprite = self.spriteLeft
 
     self.physicsEntity = PhysicsEntity:new()
