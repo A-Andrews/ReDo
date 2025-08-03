@@ -123,4 +123,8 @@ function Ghost:draw()
     love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
 end
 
+function Ghost:destroy()
+    self.physicsEntity.box:destroy()
+end
+
 return Ghost
