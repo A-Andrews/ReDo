@@ -11,9 +11,9 @@ function Door:new(tileSize, tileX, tileY)
     door.y = (tileSize * (tileY - 1)) + (tileSize / 2)
     door.isOpen = false -- Door always starts closed
 
-    -- door.spriteClosed = love.graphics.newImage("images/door_open.png")
-    -- door.spriteOpen = love.graphics.newImage("images/door_closed.png")
-    -- door.sprite = door.spriteClosed
+    door.spriteClosed = love.graphics.newImage("images/door_closed.png")
+    door.spriteOpen = love.graphics.newImage("images/door_open.png")
+    door.sprite = door.spriteClosed
 
     door.body = love.physics.newBody(WorldManager:getWorld(), door.x, door.y, "static")
     door.shape = love.physics.newRectangleShape(tileSize, tileSize)
@@ -35,12 +35,13 @@ end
 
 function Door:draw()
     local x, y = self.body:getPosition()
+    love.graphics.setColor(1, 1, 1, 1)
     if self.isOpen then
-        love.graphics.setColor(0, 200, 0, 1)
+        self.sprite = self.spriteOpen
     else
-        love.graphics.setColor(200, 0, 0, 1)
+        self.sprite = self.spriteClosed
     end
-    love.graphics.circle("fill", x, y, 20)
+    love.graphics.draw(self.sprite, x - self.sprite:getWidth() / 2, y - self.sprite:getHeight() / 2)
 end
 
 return Door

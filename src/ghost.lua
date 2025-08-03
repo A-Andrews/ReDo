@@ -18,7 +18,12 @@ function Ghost:new(recordedActions)
     ghost.type = "Ghost"
     self.spriteLeft = love.graphics.newImage("images/player_left.png")
     self.spriteRight = love.graphics.newImage("images/player_right.png")
+    self.spriteSpin = love.graphics.newImage("images/player_spin.png")
+    self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
+    self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
     self.sprite = self.spriteLeft
+    self.fadeInValue = 0.4
+    self.colour = { r = 173 / 255, g = 216 / 255, b = 230 / 255 }
 
     ghost.physicsEntity = PhysicsEntity:new()
     ghost.physicsEntity.boxFixture:setUserData(ghost)
@@ -118,18 +123,28 @@ function Ghost:draw()
 
     local timeSinceSpawn = love.timer.getTime() - self.spawnedAt
     if timeSinceSpawn < self.ignoreTime then
-        alpha = 0.1 + 0.4 * (timeSinceSpawn / self.ignoreTime) -- fade in
+        alpha = 0.1 + self.fadeInValue * (timeSinceSpawn / self.ignoreTime) -- fade in
     end
-    love.graphics.setColor(1, 1, 1, alpha)
+    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b, alpha)
 
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
-    local vx, _ = self.physicsEntity.box:getLinearVelocity()
+    local vx, vy = self.physicsEntity.box:getLinearVelocity()
 
     if vx <= 0 then
         self.sprite = self.spriteLeft
+        if vy < 0 then
+            self.sprite = self.spriteJumpLeft
+        end
     else
         self.sprite = self.spriteRight
+        if vy < 0 then
+            self.sprite = self.spriteJumpRight
+        end
+    end
+
+    if math.abs(self.physicsEntity.box:getAngularVelocity()) > 4 then
+        self.sprite = self.spriteSpin
     end
 
     love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)

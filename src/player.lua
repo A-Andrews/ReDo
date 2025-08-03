@@ -23,6 +23,9 @@ function Player:load()
     self.type = "Player"
     self.spriteLeft = love.graphics.newImage("images/player_left.png")
     self.spriteRight = love.graphics.newImage("images/player_right.png")
+    self.spriteSpin = love.graphics.newImage("images/player_spin.png")
+    self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
+    self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
     self.sprite = self.spriteLeft
 
     self.physicsEntity = PhysicsEntity:new()
@@ -110,6 +113,15 @@ function Player:draw()
         self.sprite = self.spriteLeft
     elseif love.keyboard.isDown('d') then
         self.sprite = self.spriteRight
+    end
+    if love.keyboard.isDown('space') then
+        self.sprite = self.spriteJumpLeft
+        if self.physicsEntity.box:getLinearVelocity() > 0 then
+            self.sprite = self.spriteJumpRight
+        end
+    end
+    if math.abs(self.physicsEntity.box:getAngularVelocity()) > 4 then
+        self.sprite = self.spriteSpin
     end
 
     love.graphics.draw(self.sprite, x, y, angle, 1, 1, self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
