@@ -12,7 +12,7 @@ function Countdown:load()
 end
 
 function Countdown:keypressed(key)
-    if key == "r" or key == "c" then
+    if key == "r" or key == "c" or key == "f" then
         self:reset()
     end
 end

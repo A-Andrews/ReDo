@@ -11,6 +11,9 @@ function GhostManager:keypressed(key)
             ghost:reset()
         end
     end
+    if key == "f" then
+        self:reset()
+    end
 end
 
 function GhostManager:addGhost(actions)

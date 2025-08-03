@@ -33,12 +33,10 @@ function love.update(dt)
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do
         if ((Player.physicsEntity.box:getX() - point.finishX) ^ 2 + (Player.physicsEntity.box:getY() - point.finishY) ^ 2) < 1000 then
-            print("Level complete!")
             LevelNumber = LevelNumber + 1
             WorldManager:load()
             LevelManager:loadLevel(LevelNumber)
             if not LevelManager.hasLevel then
-                print("Game completed!")
                 love.event.quit(0)
             else
                 Reset()

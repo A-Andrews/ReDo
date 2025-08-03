@@ -46,9 +46,7 @@ function levelManager:loadLevel(levelNumber)
         end;
     end
     for i, v in ipairs(dataKeys) do
-        print(v)
         if v == "time" then
-            print(tonumber(dataValues[i]))
             self.timeLimit = tonumber(dataValues[i])
         end
     end

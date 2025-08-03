@@ -65,7 +65,7 @@ end
 function Player:keypressed(key)
     if key == "r" then
         self:reset(true)
-    elseif key == "c" then
+    elseif key == "c" or key == "f" then
         self:reset(false)
     end
 end
