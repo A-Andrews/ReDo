@@ -100,10 +100,11 @@ function Ghost:draw()
     love.graphics.setColor(1, 1, 1, 0.5)
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
+    local vx, _ = self.physicsEntity.box:getLinearVelocity()
 
-    if love.keyboard.isDown('a') then
+    if vx <= 0 then
         self.sprite = self.spriteLeft
-    elseif love.keyboard.isDown('d') then
+    else
         self.sprite = self.spriteRight
     end
 
