@@ -28,7 +28,7 @@ function Ghost:new(recordedActions)
 
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
-    ghost.ignoreTime = 2.5
+    ghost.ignoreTime = 2
     ghost.spawnedAt = love.timer.getTime()
 
     ghost.physicsEntity.dead = false
