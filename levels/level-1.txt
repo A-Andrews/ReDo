@@ -2,22 +2,22 @@
 |                              |
 |                              |
 |                              |
-|  f                           |
 |                              |
-|gg           gggggg           |
-| ggg              d           |
-|   ggg            d           |
-|     ggg          d   s       |
-|       ggg        d           |
-|                  d   x    s  |
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggg
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+|          x               f   |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

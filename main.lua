@@ -8,17 +8,17 @@ local ScoreManager = require("src.scoreManager")
 local MovingPlatformManager = require("src.movingPlatformManager")
 local SensorManager = require("src.sensorManager")
 
-local LevelNumber = 5 -- level number (starts at 1 and increments)
+local LevelNumber = 1 -- level number (starts at 1 and increments)
 
 Reset = function()
     Countdown:load()
-    ScoreManager:load()
     Player:load()
     GhostManager:load()
 end
 
 function love.load()
     WorldManager:load()
+    ScoreManager:load()
     LevelManager:loadLevel(LevelNumber)
     Reset()
 end
@@ -34,6 +34,7 @@ function love.update(dt)
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do
         if ((Player.physicsEntity.box:getX() - point.finishX) ^ 2 + (Player.physicsEntity.box:getY() - point.finishY) ^ 2) < 1000 then
+            ScoreManager:addScore((LevelNumber * 10) + LevelManager.timeLimit - Countdown.time - #GhostManager.ghosts)
             LevelNumber = LevelNumber + 1
             WorldManager:load()
             LevelManager:loadLevel(LevelNumber)
