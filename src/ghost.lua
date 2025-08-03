@@ -28,7 +28,7 @@ function Ghost:new(recordedActions)
 
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
-    ghost.ignoreTime = 2.5
+    ghost.ignoreTime = 2
     ghost.spawnedAt = love.timer.getTime()
 
     ghost.physicsEntity.dead = false
@@ -87,7 +87,7 @@ function Ghost:reset()
     self.collidableGhosts = {}
     self.canCollideWithPlayer = false
     self.physicsEntity.box:setActive(true)
-    self.dead = false
+    self.spawnedAt = love.timer.getTime()
 end
 
 function Ghost:update(dt)

@@ -33,6 +33,12 @@ function GhostManager:draw()
     end
 end
 
+function GhostManager:resetGhosts()
+    for i, ghost in ipairs(self.ghosts) do
+        ghost:reset()
+    end
+end
+
 function GhostManager:reset()
     for _, ghost in ipairs(self.ghosts) do
         ghost:destroy()

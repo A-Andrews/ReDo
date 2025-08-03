@@ -5,6 +5,7 @@ local PhysicsEntity = require("src.physicsEntity")
 local PlayerAttributes = require("src.playerAttributes")
 local Countdown = require("src.countdown")
 local LevelManager = require("src.levelManager")
+local SensorManager = require("src.sensorManager")
 
 local Player = {}
 
@@ -55,6 +56,7 @@ end
 
 function Player:reset(addGhost)
     self.physicsEntity:reset()
+    SensorManager:deactivateAll()
     self.isRecording = true
     if addGhost then
         GhostManager:addGhost(self.recordedActions)
@@ -92,6 +94,7 @@ end
 function Player:update(dt)
     if self.physicsEntity.dead then
         self:reset(false)
+        GhostManager:resetGhosts()
     end
     MovementController.updateMovement(self,
         { left = love.keyboard.isDown('a'), right = love.keyboard.isDown('d'), jump = love.keyboard.isDown('space') })
