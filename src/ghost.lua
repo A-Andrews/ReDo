@@ -87,7 +87,7 @@ function Ghost:reset()
     self.collidableGhosts = {}
     self.canCollideWithPlayer = false
     self.physicsEntity.box:setActive(true)
-    self.dead = false
+    self.spawnedAt = love.timer.getTime()
 end
 
 function Ghost:update(dt)
