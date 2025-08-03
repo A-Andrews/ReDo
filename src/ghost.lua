@@ -10,7 +10,7 @@ function Ghost:new(recordedActions)
     local ghost = setmetatable({}, Ghost)
 
     ghost.recordedActions = recordedActions
-    ghost.alpha = 0.5
+    ghost.alpha = 0.7
     ghost.startTime = love.timer.getTime()
     ghost.currentActionIndex = 1
     ghost.timeElapsed = 0
@@ -28,6 +28,8 @@ function Ghost:new(recordedActions)
 
     ghost.id = love.timer.getTime()
     ghost.collidableGhosts = {}
+    ghost.ignoreTime = 2.5
+    ghost.spawnedAt = love.timer.getTime()
 
     ghost.physicsEntity.dead = false
 
@@ -35,12 +37,14 @@ function Ghost:new(recordedActions)
 end
 
 function Ghost:preSolve(other, coll)
+    local now = love.timer.getTime()
+
     local userdata = other:getUserData()
     if userdata then
-        if userdata.type == "Ghost" and self.collidableGhosts[userdata.id] == nil then
+        if userdata.type == "Ghost" and (self.collidableGhosts[userdata.id] == nil or now - self.spawnedAt < self.ignoreTime) then
             coll:setEnabled(false)
         end
-        if userdata.type == "Player" and not self.canCollideWithPlayer then
+        if userdata.type == "Player" and (not self.canCollideWithPlayer or now - self.spawnedAt < self.ignoreTime) then
             coll:setEnabled(false)
         end
     end
@@ -109,7 +113,15 @@ function Ghost:draw()
     if self.physicsEntity.dead then
         return
     end
-    love.graphics.setColor(1, 1, 1, 0.5)
+
+    local alpha = self.alpha
+
+    local timeSinceSpawn = love.timer.getTime() - self.spawnedAt
+    if timeSinceSpawn < self.ignoreTime then
+        alpha = 0.1 + 0.4 * (timeSinceSpawn / self.ignoreTime) -- fade in
+    end
+    love.graphics.setColor(1, 1, 1, alpha)
+
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
     local vx, _ = self.physicsEntity.box:getLinearVelocity()
