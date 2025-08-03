@@ -22,6 +22,8 @@ function Ghost:new(recordedActions)
     self.spriteJumpLeft = love.graphics.newImage("images/player_jump_left.png")
     self.spriteJumpRight = love.graphics.newImage("images/player_jump_right.png")
     self.sprite = self.spriteLeft
+    self.fadeInValue = 0.4
+    self.colour = { r = 173 / 255, g = 216 / 255, b = 230 / 255 }
 
     ghost.physicsEntity = PhysicsEntity:new()
     ghost.physicsEntity.boxFixture:setUserData(ghost)
@@ -121,9 +123,9 @@ function Ghost:draw()
 
     local timeSinceSpawn = love.timer.getTime() - self.spawnedAt
     if timeSinceSpawn < self.ignoreTime then
-        alpha = 0.1 + 0.4 * (timeSinceSpawn / self.ignoreTime) -- fade in
+        alpha = 0.1 + self.fadeInValue * (timeSinceSpawn / self.ignoreTime) -- fade in
     end
-    love.graphics.setColor(1, 1, 1, alpha)
+    love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b, alpha)
 
     local x, y = self.physicsEntity.box:getPosition()
     local angle = self.physicsEntity.box:getAngle()
