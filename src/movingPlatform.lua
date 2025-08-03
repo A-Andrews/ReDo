@@ -31,8 +31,8 @@ end
 function MovingPlatform:endContact(other, coll)
 end
 
-function MovingPlatform:update(dt)
-    self.elapsedTime = self.elapsedTime + dt
+function MovingPlatform:update(dt, time)
+    self.elapsedTime = time + dt
     local offset = math.sin(self.elapsedTime * 2 * math.pi / 2) * (self.distance / 2)
     self.body:setPosition(self.startX + offset, self.startY)
 end

@@ -1,5 +1,7 @@
 local MovingPlatformManager = {}
 
+MovingPlatformManager.movingPlatforms = {}
+
 function MovingPlatformManager:load()
     self.movingPlatforms = {}
 end
@@ -8,9 +10,9 @@ function MovingPlatformManager:addMovingPlatform(platform)
     table.insert(self.movingPlatforms, platform)
 end
 
-function MovingPlatformManager:update(dt)
+function MovingPlatformManager:update(dt, time)
     for _, platform in ipairs(self.movingPlatforms) do
-        platform:update(dt)
+        platform:update(dt, time)
     end
 end
 

@@ -13,11 +13,11 @@
 |                              |
 |                              |
 |                              |
-|                              |
+|                         s    |
 |          x                   |
-|    ggggggggggggggggg^^^^^^^^^|
+|    ggggggggggggggggg^^^^^^^^^^
 |      ggggggggg               |
-|                          f   |
+|          d               f   |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg

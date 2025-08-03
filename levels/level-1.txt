@@ -4,12 +4,12 @@
 |                              |
 |  f                           |
 |                              |
-|gg             gggggg         |
-| ggg                          |
-|   ggg                        |
-|     ggg                      |
-|       ggg                    |
-|                           x  |
+|gg           gggggg           |
+| ggg              d           |
+|   ggg            d           |
+|     ggg          d   s       |
+|       ggg        d           |
+|                  d   x    s  |
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
 gggggggggggggggggggggggggggggggg
