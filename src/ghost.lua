@@ -53,7 +53,7 @@ end
 function Ghost:beginContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData then
-        if otherUserData.type == "Platform" or otherUserData.type == "Ghost" or otherUserData.type == "Player" then
+        if otherUserData.type == "Platform" or otherUserData.type == "MovingPlatform" or otherUserData.type == "Ghost" or otherUserData.type == "Player" then
             self.physicsEntity.contacts[other] = true
             self.physicsEntity.leftGroundTime = 0
         elseif otherUserData.type == "Spikes" then
