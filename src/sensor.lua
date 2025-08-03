@@ -20,12 +20,27 @@ function Sensor:new(tileSize, tileX, tileY)
     sensor.type = "Sensor"
     WorldManager:registerCollisionCallback(sensor.fixture,
         { owner = sensor, beginContact = sensor.beginContact, endContact = sensor.endContact })
+
+    sensor.contacts = {}
     return sensor
+end
+
+function Sensor:keypressed(key)
+    if key == "r" or key == "c" or key == "f" then
+        self:reset()
+    end
+end
+
+function Sensor:reset()
+    self.contacts = {}
+    self.activated = false
+    self.sprite = self.spriteDeactivated
 end
 
 function Sensor:beginContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData and (otherUserData.type == "Player" or otherUserData.type == "Ghost") then
+        self.contacts[other] = true
         self.activated = true
         self.sprite = self.spriteActivated
     end
@@ -33,12 +48,20 @@ end
 
 function Sensor:endContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (
+    if otherUserData and self.contacts[other] == true and (
             otherUserData.type == "Player" or
             (otherUserData.type == "Ghost" and otherUserData.physicsEntity.box:getType() == "dynamic")
         ) then
-        self.activated = false
-        self.sprite = self.spriteDeactivated
+        self.contacts[other] = nil
+        local count = 0
+        for _, _ in pairs(self.contacts) do
+            count = count + 1
+        end
+
+        if count <= 0 then
+            self.sprite = self.spriteDeactivated
+            self.activated = false
+        end
     end
 end
 
