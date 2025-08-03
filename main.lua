@@ -6,6 +6,7 @@ local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
 local MovingPlatformManager = require("src.movingPlatformManager")
+local sensorManager = require("src.sensorManager")
 
 local LevelNumber = 1 -- level number (starts at 1 and increments)
 
@@ -25,6 +26,7 @@ end
 
 function love.update(dt)
     WorldManager:update(dt)
+    LevelManager:update(dt)
     Countdown:update(dt)
     Player:update(dt)
     GhostManager:update(dt)

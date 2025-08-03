@@ -4,6 +4,8 @@ local Sensor = require("src.sensor")
 local MovingPlatform = require("src.movingPlatform")
 local MovingPlatformManager = require("src.movingPlatformManager")
 local Spikes = require("src.spikes")
+local SensorManager = require("src.sensorManager")
+local Door = require("src.door")
 
 local levelManager = {}
 
@@ -12,6 +14,14 @@ levelManager.tiles = {}    -- 2 dim array (table of tables) for storing tiles
 levelManager.playerStart = nil
 levelManager.levelFileInfo = nil
 levelManager.timeLimit = 10 -- Default time limit
+
+levelManager.doors = {}
+
+-- Sensor management
+-- levelManager.sensors = {}
+-- levelManager.sensorState = function()
+--     if Sensor.
+-- end
 
 function levelManager:loadLevel(levelNumber)
     local fileDataPath = "/levels/level-" .. levelNumber .. ".data.txt"
@@ -46,9 +56,7 @@ function levelManager:loadLevel(levelNumber)
         end;
     end
     for i, v in ipairs(dataKeys) do
-        print(v)
         if v == "time" then
-            print(tonumber(dataValues[i]))
             self.timeLimit = tonumber(dataValues[i])
         end
     end
@@ -73,6 +81,7 @@ function levelManager:loadLevel(levelNumber)
     end
 
     self.finishPoints = {}
+    SensorManager.sensors = {} -- reset sensors array
 
     -- Parse lines and populate tiles table
     for tileY, line in ipairs(lines) do
@@ -96,6 +105,7 @@ function levelManager:loadLevel(levelNumber)
                     tile                                                                        -- Add tile to tiles table
             elseif char == "s" then
                 local sensor = Sensor:new(self.tileSize, tileX, tileY)
+                SensorManager:AddSensor(sensor)
                 levelManager.tiles[tileY][tileX] = sensor
             elseif char == "=" then
                 local movingPlatform = MovingPlatform:new(self.tileSize, tileX, tileY)
@@ -104,9 +114,25 @@ function levelManager:loadLevel(levelNumber)
             elseif char == "^" then
                 local spikes = Spikes:new(self.tileSize, tileX, tileY)
                 levelManager.tiles[tileY][tileX] = spikes
+            elseif char == "d" then
+                local door = Door:new(self.tileSize, tileX, tileY)
+                table.insert(self.doors, door)
+                levelManager.tiles[tileY][tileX] = door
             else
                 levelManager.tiles[tileY][tileX] = nil -- Need to explicitly mark as false
             end
+        end
+    end
+end
+
+function levelManager:update(dt)
+    local allSensorsActivated = SensorManager:allActive()
+
+    for i, door in ipairs(self.doors) do
+        if allSensorsActivated then
+            door.isOpen = true
+        else
+            door.isOpen = false
         end
     end
 end
@@ -115,7 +141,7 @@ function levelManager:drawTiles()
     for i, row in pairs(self.tiles) do
         for j, tile in pairs(row) do
             if tile then
-                tile:draw()
+                tile:draw() -- Call draw function on tile (all tile types must implement this function)
             end
         end
     end
