@@ -75,8 +75,7 @@ function Sensor:update(dt, ghosts)
     for _, ghost in ipairs(ghosts) do
         if ghost.physicsEntity and not ghost.physicsEntity.dead then
             local gx, gy = ghost.physicsEntity.box:getPosition()
-            local halfTile = tileSize / 2
-            if math.abs(gx - sx) <= halfTile and math.abs(gy - sy) <= halfTile then
+            if math.abs(gx - sx) <= tileSize and math.abs(gy - sy) <= tileSize then
                 activated = true
                 break
             end
