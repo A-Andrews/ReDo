@@ -63,4 +63,5 @@ function love.keypressed(key)
     Player:keypressed(key)
     GhostManager:keypressed(key)
     Countdown:keypressed(key)
+    SensorManager:keypressed(key)
 end

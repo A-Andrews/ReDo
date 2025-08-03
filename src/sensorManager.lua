@@ -23,4 +23,12 @@ function sensorManager:reset()
     self.sensors = {}
 end
 
+function sensorManager:keypressed(key)
+    if key == "r" or key == "c" or key == "f" then
+        for _, sensor in ipairs(self.sensors) do
+            sensor:reset()
+        end
+    end
+end
+
 return sensorManager
