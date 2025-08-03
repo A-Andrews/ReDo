@@ -42,3 +42,12 @@ function love.draw()
     Platform:draw()
     Player:draw()
 end
+
+local backgroundMusic
+
+function love.load()
+    backgroundMusic = love.audio.newSource("Assasin&#039;s Assault.ogg", "stream") -- use "stream" for long files
+    backgroundMusic:setLooping(true) 
+    backgroundMusic:setVolume(0.5)   -- optional: set volume between 0.0 and 1.0
+    backgroundMusic:play()
+end
