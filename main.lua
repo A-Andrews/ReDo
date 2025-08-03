@@ -5,6 +5,7 @@ local LevelNumber = 0
 local Level
 
 function love.load()
+    -- Load levels
     for i = 1, 2 do
         local level = love.filesystem.load('levels/level-' .. i .. '.lua')
         table.insert(Levels, level)
@@ -12,9 +13,18 @@ function love.load()
     LevelNumber = 1
     Level = Levels[LevelNumber]()
     Level:load()
+
+    -- Load game objects
     Platform:load()
     Player:load()
+
+    -- Load and play background music
+    backgroundMusic = love.audio.newSource("Assasin&#039;s Assault.ogg", "stream")
+    backgroundMusic:setLooping(true)
+    backgroundMusic:setVolume(0.5)
+    backgroundMusic:play()
 end
+
 
 function love.update(dt)
     Level:update(dt)
@@ -45,9 +55,4 @@ end
 
 local backgroundMusic
 
-function love.load()
-    backgroundMusic = love.audio.newSource("Assasin&#039;s Assault.ogg", "stream") -- use "stream" for long files
-    backgroundMusic:setLooping(true) 
-    backgroundMusic:setVolume(0.5)   -- optional: set volume between 0.0 and 1.0
-    backgroundMusic:play()
-end
+
