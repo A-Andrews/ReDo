@@ -49,11 +49,14 @@ function love.update(dt)
 end
 
 function love.draw()
+    local background = love.graphics.newImage("images/background.png")
+    love.graphics.setColor(1, 1, 1, 1) -- ensure full color and opacity
+    love.graphics.draw(background, 0, 0)
     Countdown:draw()
     ScoreManager:draw()
     LevelManager:drawTiles()
-    Player:draw()
     GhostManager:draw()
+    Player:draw()
 end
 
 function love.keypressed(key)
