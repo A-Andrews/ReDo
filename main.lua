@@ -6,9 +6,9 @@ local GhostManager = require("src.ghostManager")
 local Countdown = require("src.countdown")
 local ScoreManager = require("src.scoreManager")
 local MovingPlatformManager = require("src.movingPlatformManager")
-local sensorManager = require("src.sensorManager")
+local SensorManager = require("src.sensorManager")
 
-local LevelNumber = 1 -- level number (starts at 1 and increments)
+local LevelNumber = 5 -- level number (starts at 1 and increments)
 
 Reset = function()
     Countdown:load()
@@ -31,6 +31,12 @@ function love.update(dt)
     Player:update(dt)
     GhostManager:update(dt)
     MovingPlatformManager:update(dt)
+    local bodies = {}
+    bodies[1] = Player.physicsEntity.box
+    for i, ghost in ipairs(GhostManager.ghosts) do
+        table.insert(bodies, ghost.physicsEntity.box)
+    end
+    SensorManager:update(dt, bodies)
 
     -- Placeholder logic for moving between levels
     for i, point in ipairs(LevelManager.finishPoints) do

@@ -36,8 +36,7 @@ end
 function Door:draw()
     local x, y = self.body:getPosition()
     if self.isOpen then
-        self.fixture =
-            love.graphics.setColor(0, 200, 0, 1)
+        love.graphics.setColor(0, 200, 0, 1)
     else
         love.graphics.setColor(200, 0, 0, 1)
     end

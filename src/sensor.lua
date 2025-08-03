@@ -26,6 +26,7 @@ end
 function Sensor:beginContact(other, coll)
     local otherUserData = other:getUserData()
     if otherUserData and (otherUserData.type == "Player" or otherUserData.type == "Ghost") then
+        print("begin contact")
         self.activated = true
         self.sprite = self.spriteActivated
     end
@@ -33,10 +34,17 @@ end
 
 function Sensor:endContact(other, coll)
     local otherUserData = other:getUserData()
-    if otherUserData and (otherUserData.type == "Player" or (otherUserData.type == "Ghost" and otherUserData.physicsEntity.box:getType() == "dynamic")) then
+    if otherUserData and (
+            otherUserData.type == "Player" or
+            (otherUserData.type == "Ghost" and otherUserData.physicsEntity.box:getType() == "dynamic")
+        ) then
         self.activated = false
         self.sprite = self.spriteDeactivated
     end
+end
+
+function Sensor:update(dt, fixtures)
+    return
 end
 
 function Sensor:draw()

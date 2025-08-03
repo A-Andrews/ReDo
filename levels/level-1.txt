@@ -7,7 +7,7 @@
 |gg           gggggg           |
 | ggg              d           |
 |   ggg            d           |
-|     ggg          d           |
+|     ggg          d   s       |
 |       ggg        d           |
 |                  d   x    s  |
 gggggggggggggggggggggggggggggggg

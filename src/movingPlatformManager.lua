@@ -1,5 +1,7 @@
 local MovingPlatformManager = {}
 
+MovingPlatformManager.movingPlatforms = {}
+
 function MovingPlatformManager:load()
     self.movingPlatforms = {}
 end
