@@ -65,8 +65,36 @@ function Sensor:endContact(other, coll)
     end
 end
 
-function Sensor:update(dt, fixtures)
-    return
+function Sensor:update(dt, ghosts)
+    local GhostManager = require("src.ghostManager")
+    local ghosts = GhostManager.ghosts
+    local sx, sy = self.body:getPosition()
+    local tileSize = 32
+
+    local activated = false
+    for _, ghost in ipairs(ghosts) do
+        if ghost.physicsEntity and not ghost.physicsEntity.dead then
+            local gx, gy = ghost.physicsEntity.box:getPosition()
+            local halfTile = tileSize / 2
+            if math.abs(gx - sx) <= halfTile and math.abs(gy - sy) <= halfTile then
+                activated = true
+                break
+            end
+        end
+    end
+
+    local count = 0
+    for _, _ in pairs(self.contacts) do
+        count = count + 1
+    end
+
+    if activated then
+        self.activated = true
+        self.sprite = self.spriteActivated
+    elseif not activated and count <= 0 then
+        self.activated = false
+        self.sprite = self.spriteDeactivated
+    end
 end
 
 function Sensor:draw()

@@ -17,6 +17,7 @@ Reset = function()
 end
 
 function love.load()
+    GhostManager:load()
     WorldManager:load()
     ScoreManager:load()
     LevelManager:loadLevel(LevelNumber)
@@ -29,6 +30,8 @@ function love.update(dt)
     Countdown:update(dt)
     Player:update(dt)
     GhostManager:update(dt)
+
+    SensorManager:update(dt, GhostManager.ghosts)
     MovingPlatformManager:update(dt, Countdown.time)
 
     -- Placeholder logic for moving between levels

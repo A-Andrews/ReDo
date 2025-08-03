@@ -81,9 +81,9 @@ function Player:record()
         local currentTime = love.timer.getTime()
         table.insert(self.recordedActions,
             {
-                left = love.keyboard.isDown('a'),
-                right = love.keyboard.isDown('d'),
-                jump = love.keyboard.isDown('space'),
+                x = self.physicsEntity.box:getX(),
+                y = self.physicsEntity.box:getY(),
+                angle = self.physicsEntity.box:getAngle(),
                 t = currentTime - self.recordStartTime
             })
 
